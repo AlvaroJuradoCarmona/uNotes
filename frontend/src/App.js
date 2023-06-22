@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from "react-router-dom"
+import Inicio from './Components/inicio';
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <Routes>
+        <Route path="/" element={<Inicio/>} />
+      </Routes>
     </div>
   );
 }

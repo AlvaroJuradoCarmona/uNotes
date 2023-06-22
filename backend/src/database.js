@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require('mysql2/promise');
 import config from "./config";
 
 const connection = mysql.createConnection({
