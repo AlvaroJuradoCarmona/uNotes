@@ -1,0 +1,357 @@
+.header{
+  height: 600px;
+}
+
+.indeximg {
+  width: 1074px;
+  height: 528px;
+  position: absolute;
+  left: 576px;
+  background: url(../../assets/javier-trueba-iQPr1XkF5F0-unsplash.jpg);
+  background-position: top right;
+  background-size: cover;
+}
+
+.vector {
+  position: absolute;
+  left: 264px;
+  overflow: visible;
+}
+
+.vector2 {
+  position: absolute;
+  left: 290px;
+  margin-top: 10px;
+  overflow: visible;
+}
+
+.button {
+  background: var(--m-3-sys-light-primary, #6750a4);
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 50px;
+  position: absolute;
+  left: 420px;
+  top: 420px;
+  overflow: hidden;
+}
+
+.state-layer {
+  padding: 10px 24px 10px 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.label-text {
+  color: var(--m-3-sys-light-on-primary, #ffffff);
+  text-align: center;
+  font: 500 20px/20px "Roboto", sans-serif;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comparte {
+  color: #000000;
+  text-align: left;
+  font: 300 40px "Space Mono", monospace;
+  position: absolute;
+  left: 400px;
+  top: 180px;
+  width: 225px;
+}
+
+.aprende {
+  color: #000000;
+  text-align: left;
+  font: 300 40px "Space Mono", monospace;
+  position: absolute;
+  left: 470px;
+  top: 260px;
+  width: 222px;
+}
+
+.aprueba {
+  color: #000000;
+  text-align: left;
+  font: 300 40px "Space Mono", monospace;
+  position: absolute;
+  left: 543px;
+  top: 340px;
+  width: 183px;
+}
+
+.container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vineta1 {
+  width: 110%;
+  max-width: 390px;
+  height: 400px;
+  background: url(../../assets/Vineta1.png);
+  background-size: cover;
+  flex: 0 0 auto;
+}
+
+.texto1 {
+  width: 100%;
+  max-width: 100%;
+  height: 509px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+.container2 {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vineta2 {
+  width: 100%;
+  max-width: 390px;
+  height: 240px;
+  background: url(../../assets/Vineta2.png);
+  background-size: cover;
+  flex: 0 0 auto;
+  order: 1;
+}
+
+.texto2 {
+  width: 100%;
+  max-width: 100%;
+  height: 500px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-right: 20px;
+  order: 2;
+}
+
+  /* Móvil pequeño */
+@media (max-width: 360px) {
+  .vineta1 {
+    width: 100%;
+    max-width: 100%;
+    height: 240px;
+  }
+
+  .texto1 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .vineta2 {
+    width: 100%;
+    max-width: 100%;
+    height: 230px;
+  }
+
+  .texto2 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+}
+
+/* Móvil medio */
+@media (min-width: 361px) and (max-width: 375px) {
+  .vineta1 {
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+  }
+
+  .texto1 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .vineta2 {
+    width: 100%;
+    max-width: 100%;
+    height: 240px;
+  }
+
+  .texto2 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+}
+
+/* Smartphone grande */
+@media (min-width: 376px) and (max-width: 720px) {
+  .vineta1 {
+    width: 100%;
+    max-width: 100%;
+    height: 260px;
+  }
+
+  .texto1 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .vineta2 {
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+  }
+
+  .texto2 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+}
+
+/* Ordenador portátil medio */
+@media (min-width: 721px) and (max-width: 1366px) {
+  .indeximg {
+    display: none;
+  }
+  
+  .vector {
+    display: none;
+  }
+  
+  .vector2 {
+    left: 170px;
+  }
+  
+  .button {
+    left: 300px;
+  }
+
+  .comparte {
+    left: 280px;
+  }
+  
+  .aprende {
+    left: 350px;
+  }
+  
+  .aprueba {
+    left: 420px;
+  }
+
+  .vineta1 {
+    width: 100%;
+    max-width: 100%;
+    height: 515px;
+  }
+
+  .texto1 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .vineta2 {
+    width: 100%;
+    max-width: 100%;
+    height: 490px;
+  }
+
+  .texto2 {
+    height: auto;
+    padding: 20px;
+    align-items: center;
+  }
+}
+
+/* PC de escritorio medio y grande */
+@media (min-width: 1367px) and (max-width: 1440px) {
+  .indeximg {
+    left: 270px;
+  }
+  
+  .vector {
+    left: 0px;
+  }
+  
+  .vector2 {
+    left: 20px;
+  }
+  
+  .button {
+    left: 140px;
+  }
+
+  .comparte {
+    left: 120px;
+  }
+  
+  .aprende {
+    left: 190px;
+  }
+  
+  .aprueba {
+    left: 260px;
+  }
+}
+
+@media (min-width: 1367px){
+  .vineta1 {
+    flex: 0 0 540px;
+    max-width: 540px;
+    height: 520px;
+  }
+
+  .texto1 {
+    flex: 0 0 calc(70% - 540px);
+    padding-left: 200px;
+    align-items: center;
+  }
+
+  .vineta2 {
+    width: 100%;
+    max-width: 740px;
+    height: 400px;
+    flex: 0 0 700px;
+    order: 2;
+  }
+
+  .texto2 {
+    flex: 0 0 calc(70% - 540px);
+    padding-left: 200px;
+    align-items: center;
+    order: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .header  {
+    display: none;
+  }
+}
