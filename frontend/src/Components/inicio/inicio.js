@@ -1,20 +1,18 @@
 import * as React from 'react';
+import Button from '@mui/material/Button';
+
 import "./inicio.css";
 
 export default function Inicio() {
   return (
   <>
     <div className="nav">
-      <div className="button">
-        <div className="state-layer">
-          <div className="label-text">Iniciar Sesión</div>
-        </div>
+      <div className="buttonSignin">
+        <Button variant="contained">Iniciar Sesión</Button>
       </div>
 
-      <div className="button2">
-        <div className="state-layer">
-          <div className="label-text2">Regístrate</div>
-        </div>
+      <div className="buttonSignup">
+        <Button variant="contained">Regístrate</Button>
       </div>
     </div>
 

@@ -6,6 +6,8 @@ const cors = require("cors");
 //Routes
 import userRoutes from "./routes/user.routes";
 import languageRoutes from "./routes/language.routes";
+import subjectRoutes from "./routes/subject.routes";
+import universityRoutes from "./routes/university.routes";
 
 const app = express();
 
@@ -21,5 +23,7 @@ app.use(cors());
 //Routes
 app.use("/api/user", userRoutes);
 app.use("/api/language", languageRoutes)
+app.use("/api/subject", subjectRoutes)
+app.use("/api/university", universityRoutes)
 
 export default app;
