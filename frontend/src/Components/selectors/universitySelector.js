@@ -5,38 +5,40 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import universityServices from '../../services/university.service'
+import universityServices from '../../services/university.service';
 
 import "./selector.css";
 
-export default function UniversitySelect() {
+export default function UniversitySelect({ setSelectedUniversity }) {
   const [universities, setUniversities] = useState([]);
-  const [selectedUniversity, setSelectedUniversity] = useState('');
+  const [selectedUniversity, setSelectedUniversityLocal] = useState('');
 
-  useEffect(() => {
+  useEffect(() => { 
     universityServices.getUniversities().then(p => {
       setUniversities(p);
     })
-  }, [])
+  }, []);
 
   const handleChange = (event) => {
-    setSelectedUniversity(event.target.value);
+    const selectedValue = event.target.value;
+    setSelectedUniversityLocal(selectedValue);
+    setSelectedUniversity(selectedValue);
   };
 
   return (
     <Box>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">University</InputLabel>
+        <InputLabel id="demo-simple-select-label">Universidad</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={selectedUniversity}
-          label="University"
+          label="Universidad"
           onChange={handleChange}
         >
           {universities.length > 0 &&
-            universities[0].map(({ name }, id) => (
-              <MenuItem key={id} value={id}>{name}</MenuItem>
+            universities[0].map(({ idUniversity, name }) => (
+              <MenuItem key={idUniversity} value={idUniversity}>{name}</MenuItem>
             ))}
         </Select>
       </FormControl>

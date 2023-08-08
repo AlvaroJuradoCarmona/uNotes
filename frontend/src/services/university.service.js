@@ -14,7 +14,7 @@ const getUniversityById = async (id) => {
 
 const methods = {
     getUniversities,
-    getUniversityById,
+    getUniversityById
 }
 
 export default methods;

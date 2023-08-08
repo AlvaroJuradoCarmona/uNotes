@@ -5,7 +5,7 @@ const getUniversities = async (req,res) => {
         const connection = await getConnection();
         let query;
         
-        query = await connection.query("SELECT * FROM universities ORDER BY name ASC;");
+        query = await connection.query("SELECT * FROM universities ORDER BY name ASC");
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});

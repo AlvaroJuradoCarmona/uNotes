@@ -8,11 +8,58 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import UniversitySelector from '../selectors/universitySelector'
+import FacultySelector from '../selectors/facultySelector'
+import authService from '../../services/auth.service'
+import tokenService from '../../services/token.service'
 
 import "./credentials.css";
 
-export default function SignUp() {
+const SignUp = () => {
+
+  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
+  const [university, setUniversity] = React.useState("");
+  const [faculty, setFaculty] = React.useState("");
+
+  const handleUsername = (event) => {
+    setUsername(event.target.value)
+  };
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value)
+  };
+
+  const handlePassword = (event) => {
+    setPassword(event.target.value)
+  };
+
+  const handlePasswordConfirmation = (event) => {
+    setPasswordConfirmation(event.target.value)
+  };
+
+  const handleUniversity = (event) => {
+    setUniversity(event.target.value)
+  };
+
+  const handleFaculty = (event) => {
+    setFaculty(event.target.value)
+  };
+
+  const generateToken = (e) => {
+    e.preventDefault()
+    
+    authService.signUp({
+      username, email, password, passwordConfirmation, university, faculty
+    }).then(t=>{
+        tokenService.setToken(t.token)
+
+    }).catch(e=>{
+      console.log(e);
+    })
+  }
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -20,16 +67,17 @@ export default function SignUp() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   return (
   <div className="signContainer">
     <div className="signBox">
       <h1>Sign up</h1>
       <div className="signFields">
         <div className="signTextField">
-          <TextField fullWidth label="Usuario" />
+          <TextField fullWidth label="Usuario" onChange={handleUsername}/>
         </div>
         <div className="signTextField">
-          <TextField fullWidth label="Correo electrónico" />
+          <TextField fullWidth label="Correo electrónico" onChange={handleEmail}/>
         </div>
 
         <div className="signTextField">
@@ -50,6 +98,7 @@ export default function SignUp() {
                   </InputAdornment>
                 }
                 label="Contraseña"
+                onChange={handlePassword}
               />
             </FormControl>
           </div>
@@ -72,14 +121,18 @@ export default function SignUp() {
                   </InputAdornment>
                 }
                 label="Confirmación"
+                onChange={handlePasswordConfirmation}
               />
             </FormControl>
           </div>
           <div className="signTextField">
-            <UniversitySelector />
+            <FacultySelector onChange={res => {
+              handleFaculty(res.selectedFaculty)
+              handleUniversity(res.selectedUniversity)
+            }}/>
           </div>
-          <Button variant="contained" id="signButton">Crear Cuenta</Button>
-      </div>
+          <Button variant="contained" id="signButton" onClick={generateToken}>Crear Cuenta</Button>
+      </div>/
       <div>
           <p>Do you have an account?</p>
       </div>
@@ -87,3 +140,5 @@ export default function SignUp() {
   </div>
   );
 }
+
+export default SignUp
