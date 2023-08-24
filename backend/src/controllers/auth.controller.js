@@ -1,6 +1,8 @@
 import {getConnection} from "../database";
 import * as authlib from "../libs/authlib"
 import jwt from 'jsonwebtoken'
+import config from "../config";
+import { sendEmailToUser } from "../libs/email"
 
 export const signUp = async (req, res) => {
     try{
@@ -37,12 +39,46 @@ export const signUp = async (req, res) => {
         const token = jwt.sign({id: idUser}, config.secret, {
             expiresIn: 86400
         })
+
+        const subject = "Bienvenido a uNotes"
+        const activationLink = `${config.react_host}/confirmAccount/${token}`
+        const message = `Ya casi estás!!,\n Pulsa el enlace a continuación para activar tu cuenta:\n${activationLink}\n`  
+        sendEmailToUser(email, subject, message, false)
         return res.json({token})
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos - " + error.message});
     }
 }
 
+export const confirmAccount = async (req, res) => {
+    try {
+      const {token} = req.params
+
+      if (token !== undefined)
+      {
+        const connection = await getConnection()
+        const {idUser} = jwt.verify(token, config.secret)
+        await connection.query("UPDATE users SET isValidated='1' WHERE idUser=?", idUser)
+        return res.json({ message: "Cuenta verificada!" })
+      }
+      else
+        return res.status(400).json({message: "Token no encontrado"})
+    } catch (error) {
+      return res.status(500).send(error.message)
+    }
+  }
+
+  export const getAccount = (req, res) => {
+    const {token} = req.params
+
+    if (token === undefined)
+      return res.status(400).json({"message": "Token no encontrado"})
+    const {idUser} = jwt.verify(token, config.secret)
+    return res.json({"idUser": idUser})
+  }
+
 export const methods = {
-    signUp
+    signUp,
+    confirmAccount,
+    getAccount
 }

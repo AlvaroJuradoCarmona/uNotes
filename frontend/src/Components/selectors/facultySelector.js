@@ -21,12 +21,12 @@ export default function FacultySelect(props) {
     })
   }, [selectedUniversity]);
 
-  useEffect(() => {
+ /* useEffect(() => {
     props.onChange({
       selectedFaculty,
       selectedUniversity
     })
-  }, [props, selectedFaculty, selectedUniversity])
+  }, [props, selectedFaculty, selectedUniversity])*/
 
   const handleChange = (event) => {
     setSelectedFaculty(event.target.value);

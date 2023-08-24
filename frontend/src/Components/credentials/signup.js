@@ -8,9 +8,13 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import FacultySelector from '../selectors/facultySelector'
 import authService from '../../services/auth.service'
 import tokenService from '../../services/token.service'
+
+import facultyServices from '../../services/faculty.service';
+import UniversitySelect from '../selectors/universitySelector';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import "./credentials.css";
 
@@ -20,8 +24,16 @@ const SignUp = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
-  const [university, setUniversity] = React.useState("");
-  const [faculty, setFaculty] = React.useState("");
+
+  const [faculties, setFaculties] = React.useState([]);
+  const [selectedFaculty, setSelectedFaculty] = React.useState('');
+  const [selectedUniversity, setSelectedUniversity] = React.useState('');
+
+  React.useEffect(() => { 
+    facultyServices.getFacultiesByUniversity(selectedUniversity).then(p => {
+      setFaculties(p);
+    })
+  }, [selectedUniversity]);
 
   const handleUsername = (event) => {
     setUsername(event.target.value)
@@ -39,22 +51,20 @@ const SignUp = () => {
     setPasswordConfirmation(event.target.value)
   };
 
-  const handleUniversity = (event) => {
-    setUniversity(event.target.value)
-  };
-
   const handleFaculty = (event) => {
-    setFaculty(event.target.value)
+    setSelectedFaculty(event.target.value)
   };
 
   const generateToken = (e) => {
     e.preventDefault()
-    
-    authService.signUp({
-      username, email, password, passwordConfirmation, university, faculty
-    }).then(t=>{
-        tokenService.setToken(t.token)
 
+    authService.signUp({
+      username, email, password, passwordConfirmation, selectedUniversity, selectedFaculty
+    }).then(t=>{
+      setTimeout(() => {
+        tokenService.setToken(t.token)
+        window.location.reload(true)
+      }, 5000)
     }).catch(e=>{
       console.log(e);
     })
@@ -126,13 +136,27 @@ const SignUp = () => {
             </FormControl>
           </div>
           <div className="signTextField">
-            <FacultySelector onChange={res => {
-              handleFaculty(res.selectedFaculty)
-              handleUniversity(res.selectedUniversity)
-            }}/>
+            <UniversitySelect setSelectedUniversity={setSelectedUniversity} />
+            <div className="selectorBox">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Facultad</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedFaculty}
+                  label="Facultad"
+                  onChange={handleFaculty}
+                >
+                  {faculties.length > 0 &&
+                    faculties[0].map(({ idFaculty, name }) => (
+                      <MenuItem key={idFaculty} value={idFaculty}>{name}</MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </div>
           </div>
           <Button variant="contained" id="signButton" onClick={generateToken}>Crear Cuenta</Button>
-      </div>/
+      </div>
       <div>
           <p>Do you have an account?</p>
       </div>

@@ -9,7 +9,7 @@ const getFaculties = async (req,res) => {
         if (idUniversity === undefined)
             query = await connection.query("SELECT * FROM faculties");
         else
-            query = await connection.query("SELECT name FROM faculties WHERE idUniversity = ?", idUniversity);
+            query = await connection.query("SELECT * FROM faculties WHERE idUniversity = ?", idUniversity);
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
