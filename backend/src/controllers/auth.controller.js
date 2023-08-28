@@ -7,10 +7,11 @@ import { sendEmailToUser } from "../libs/email"
 export const signUp = async (req, res) => {
     try{
         const connection = await getConnection();
-        const {username, email, password, passwordConfirmation, idUniversity, idFaculty} = req.body
+        console.log(req.body)
+        const {username, email, password, passwordConfirmation, selectedUniversity, selectedFaculty} = req.body
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]+$')
 
-        if(username === '' || email === '' || password === '' || passwordConfirmation === '' || idUniversity === '' || idFaculty === '')
+        if(username === '' || email === '' || password === '' || passwordConfirmation === '' || selectedUniversity === '' || selectedUniversity === '')
             return res.status(500).json({message: "Fill all fields"})
         else if (username.length > 20)
             return res.status(500).json({message: "Invalid username: Too long"})
@@ -32,7 +33,7 @@ export const signUp = async (req, res) => {
         const emailLower = email.toLowerCase() 
         const passwordEncrypt = await authlib.encryptPassword(password)
         
-        const user = {username, "email": emailLower, "password": passwordEncrypt, idUniversity, idFaculty}
+        const user = {username, "email": emailLower, "password": passwordEncrypt, idUniversity: selectedUniversity, idFaculty: selectedFaculty}
         await connection.query("INSERT INTO users SET ?", user)
 
         const {idUser} = await connection.query(`SELECT idUser FROM users WHERE email = ?`, emailLower)

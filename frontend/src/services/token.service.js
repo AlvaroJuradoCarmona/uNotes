@@ -1,4 +1,5 @@
 const setToken = (token) => {
+    console.log(token.token)
     window.localStorage.setItem("token", token)
 }
 

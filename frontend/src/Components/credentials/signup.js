@@ -12,7 +12,7 @@ import authService from '../../services/auth.service'
 import tokenService from '../../services/token.service'
 
 import facultyServices from '../../services/faculty.service';
-import UniversitySelect from '../selectors/universitySelector';
+import universityServices from '../../services/university.service';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -26,8 +26,15 @@ const SignUp = () => {
   const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
 
   const [faculties, setFaculties] = React.useState([]);
-  const [selectedFaculty, setSelectedFaculty] = React.useState('');
-  const [selectedUniversity, setSelectedUniversity] = React.useState('');
+  const [universities, setUniversities] = React.useState([]);
+  const [selectedFaculty, setSelectedFaculty] = React.useState(1);
+  const [selectedUniversity, setSelectedUniversity] = React.useState(1);
+
+  React.useEffect(() => { 
+    universityServices.getUniversities().then(p => {
+      setUniversities(p);
+    })
+  }, []);
 
   React.useEffect(() => { 
     facultyServices.getFacultiesByUniversity(selectedUniversity).then(p => {
@@ -51,16 +58,20 @@ const SignUp = () => {
     setPasswordConfirmation(event.target.value)
   };
 
+  const handleUniversity = ({target}) => {
+    setSelectedUniversity(target.value)
+  };
+
   const handleFaculty = (event) => {
     setSelectedFaculty(event.target.value)
   };
 
   const generateToken = (e) => {
     e.preventDefault()
-
     authService.signUp({
       username, email, password, passwordConfirmation, selectedUniversity, selectedFaculty
     }).then(t=>{
+      console.log(t)
       setTimeout(() => {
         tokenService.setToken(t.token)
         window.location.reload(true)
@@ -136,13 +147,31 @@ const SignUp = () => {
             </FormControl>
           </div>
           <div className="signTextField">
-            <UniversitySelect setSelectedUniversity={setSelectedUniversity} />
+            <div className="selectorBox">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Universidad</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  defaultValue = ""
+                  value={selectedUniversity}
+                  label="Facultad"
+                  onChange={handleUniversity}
+                >
+                  {universities.length > 0 &&
+                    universities[0].map(({ idUniversity, name }) => (
+                      <MenuItem key={idUniversity} value={idUniversity}>{name}</MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </div>
             <div className="selectorBox">
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Facultad</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
+                  defaultValue = ""
                   value={selectedFaculty}
                   label="Facultad"
                   onChange={handleFaculty}
