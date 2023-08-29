@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@mui/icons-material": "^5.11.16",
+    "@mui/icons-material": "^5.14.7",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "nodemailer": "^6.9.4"

@@ -7,7 +7,7 @@ import { sendEmailToUser } from "../libs/email"
 export const signUp = async (req, res) => {
     try{
         const connection = await getConnection();
-        console.log(req.body)
+
         const {username, email, password, passwordConfirmation, selectedUniversity, selectedFaculty} = req.body
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]+$')
 
