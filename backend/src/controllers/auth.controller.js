@@ -78,8 +78,36 @@ export const confirmAccount = async (req, res) => {
     return res.json({"idUser": idUser})
   }
 
+  export const signIn = async (req, res) => {
+    try {
+      const {email, password} = req.body
+      const connection = await getConnection()
+      
+      const [ existEmail ] = await connection.query('SELECT email FROM users WHERE email = ?', email)
+      if (existEmail.length === 0)
+          return res.status(400).json({ message: "Email not found" })
+      console.log(existEmail)
+      const [ passwordCheck ] = await connection.query('SELECT password FROM users WHERE email = ?', email)
+      console.log(passwordCheck)
+      const matchPassword = await authlib.validatePassword(password, passwordCheck[0].password)
+      if (!matchPassword)
+          return res.status(400).json({ message: "Invalid password" })
+      
+      const {idUser} = await connection.query(`SELECT idUser FROM users WHERE email = ?`, email)
+                                                         
+      const token = jwt.sign({id: idUser}, config.secret, {
+          expiresIn: 86400 
+      })
+  
+      return res.json({ token })
+    } catch(error) {
+      return res.status(500).send(error.message)
+    }
+  }
+
 export const methods = {
     signUp,
     confirmAccount,
-    getAccount
+    getAccount,
+    signIn
 }

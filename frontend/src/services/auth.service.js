@@ -17,10 +17,16 @@ const getAccount = async (token) => {
     return request.then(response => response.data);
 }
 
+const signIn = (userData) => {
+    const request = axios.post(`${baseUrl}/signin`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
 const methods = {
     signUp,
     confirmAccount,
-    getAccount
+    getAccount,
+    signIn
 }
 
 export default methods;

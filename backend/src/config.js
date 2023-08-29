@@ -9,7 +9,7 @@ export default {
     user: process.env.USER||"",
     password: process.env.PASSWORD||"",
     secret: process.env.SECRET,
-    email: process.env.EMAil,
+    email: process.env.EMAIL,
     email_pass: process.env.EMAIL_PASS,
     react_host: process.env.REACT_HOST
 };
