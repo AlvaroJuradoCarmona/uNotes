@@ -1,7 +1,7 @@
 import config from '../config';
 const nodemailer = require('nodemailer');
 
-export const sendEmailToUser = (userEmail, subject, message, recover) => {
+export const sendEmailToUser = (userEmail, subject, message, recover, res) => {
   
   const transporter = nodemailer.createTransport({
     service: 'gmail',

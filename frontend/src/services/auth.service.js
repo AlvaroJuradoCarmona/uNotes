@@ -22,11 +22,17 @@ const signIn = (userData) => {
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const recoverPassword = (userData) => {
+    const request = axios.put(`${baseUrl}/recover-password`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
 const methods = {
     signUp,
     confirmAccount,
     getAccount,
-    signIn
+    signIn,
+    recoverPassword
 }
 
 export default methods;

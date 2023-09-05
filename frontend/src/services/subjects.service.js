@@ -17,10 +17,16 @@ const getSubjectById = async (id) => {
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const getSubjectsByFaculty = async (idFaculty) => {
+    const request = axios.get(`${baseUrl}/${idFaculty}`);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
 const methods = {
     getSubjects,
     getSubjectsByCourse,
     getSubjectById,
+    getSubjectsByFaculty
 }
 
 export default methods;

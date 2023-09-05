@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom"
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -8,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+
 import authService from '../../services/auth.service'
 import tokenService from '../../services/token.service'
 
@@ -17,6 +19,15 @@ const SignIn = () => {
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  let nav = useNavigate()
+
+  React.useEffect(() => {
+    tokenService.getToken().then(data => {
+        if(data && data.length > 0)
+          nav("../subject", {replace: true})
+    })
+  }, [nav])
 
   const handleEmail = (event) => {
     setEmail(event.target.value)

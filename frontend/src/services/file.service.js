@@ -7,8 +7,14 @@ const getFiles = async () => {
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const addFile = (fileData) => {
+    const request = axios.get(`${baseUrl}/`, fileData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
 const methods = {
-    getFiles
+    getFiles,
+    addFile
 }
 
 export default methods;

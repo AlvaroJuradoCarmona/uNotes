@@ -13,12 +13,12 @@ import { purple } from '@mui/material/colors';
 
 import "./subjects.css";
 
-export default function BasicTable() {
+export default function SubjectList({user}) {
 
   const [subjects, setSubjects] = useState([])
 
   useEffect(() => {
-    subjectsServices.getSubjects().then(p => {
+    subjectsServices.getSubjectsByFaculty(1).then(p => {
       setSubjects(p);
     })
   }, [])
