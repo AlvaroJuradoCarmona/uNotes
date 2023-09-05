@@ -11,6 +11,8 @@ import FolderIcon from '@mui/icons-material/Folder';
 import subjectsServices from "../../services/subjects.service"
 import { purple } from '@mui/material/colors';
 
+import userServices from "../../services/user.service"
+
 import "./subjects.css";
 
 export default function SubjectList({user}) {
@@ -18,10 +20,19 @@ export default function SubjectList({user}) {
   const [subjects, setSubjects] = useState([])
 
   useEffect(() => {
-    subjectsServices.getSubjectsByFaculty(1).then(p => {
-      setSubjects(p);
-    })
-  }, [])
+    async function fetchData() {
+      try {
+        const userInfo = await userServices.getUserById(user.idUser);
+        const idFaculty = userInfo[0][0].idFaculty;
+        const subjectsData = await subjectsServices.getSubjectsByFaculty(idFaculty);
+        setSubjects(subjectsData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, [user.idUser]);
 
   return ( subjects.length !== 0 ?
     (<div className="fit_table">

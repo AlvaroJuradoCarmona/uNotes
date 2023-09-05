@@ -43,7 +43,7 @@ function App() {
           <Route path="/" element={<Inicio />} />
           { user ?
               <>
-                <Route path="/subject/:idFaculty" element={<Subjects user={user} />} />
+                <Route path="/subject" element={<Subjects user={user} />} />
               </> : null
           }
           <Route path="/signup" element={<SignUp />} />

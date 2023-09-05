@@ -1,16 +1,18 @@
 import {getConnection} from "../database";
 
-const getUsers = async (req,res) => {
-    try{
-        const connection = await getConnection();
-        const query = await connection.execute("SELECT * FROM roles");
-        console.log(query);
-        res.json(query);
-    }catch(error){
-        res.status(500).send(error.message);
+const getUserById = async (req, res) => {
+    try {
+        const connection = await getConnection()
+        const { idUser } = req.params
+
+        const user = await connection.query("SELECT * FROM users WHERE idUser = ? ", idUser)
+
+        res.json(user)
+    } catch (error) {
+        res.status(500).send(error.message)
     }
 }
 
 export const methods = {
-    getUsers
+    getUserById
 }
