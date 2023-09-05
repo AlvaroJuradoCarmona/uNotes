@@ -36,13 +36,11 @@ export const signUp = async (req, res) => {
         const user = {username, "email": emailLower, "password": passwordEncrypt, idUniversity: selectedUniversity, idFaculty: selectedFaculty}
         await connection.query("INSERT INTO users SET ?", user)
 
-        const {idUser} = await connection.query(`SELECT idUser FROM users WHERE email = ?`, emailLower)
-        const token = jwt.sign({id: idUser}, config.secret, {
-            expiresIn: 86400
-        })
+        const [ idUser ] = await connection.query(`SELECT idUser FROM users WHERE email = ?`, emailLower)
+        const token = jwt.sign({idUser: idUser[0].idUser}, config.secret, { expiresIn: 86400 })
 
         const subject = "Bienvenido a uNotes"
-        const activationLink = `${config.react_host}/confirmAccount/${token}`
+        const activationLink = `${config.react_host}confirmAccount/${token}`
         const message = `Ya casi estás!!,\n Pulsa el enlace a continuación para activar tu cuenta:\n${activationLink}\n`  
         sendEmailToUser(email, subject, message, false, res)
         return res.json({token})
@@ -54,16 +52,17 @@ export const signUp = async (req, res) => {
 export const confirmAccount = async (req, res) => {
     try {
       const {token} = req.params
-
-      if (token !== undefined)
+      const connection = await getConnection()
+      console.log(token)
+      if (token === undefined)
       {
-        const connection = await getConnection()
-        const {idUser} = jwt.verify(token, config.secret)
-        await connection.query("UPDATE users SET isValidated='1' WHERE idUser=?", idUser)
-        return res.json({ message: "Cuenta verificada!" })
-      }
-      else
         return res.status(400).json({message: "Token no encontrado"})
+      }
+        const {idUser} = jwt.verify(token, config.secret)
+        console.log(jwt.verify(token, config.secret))
+        console.log(idUser)
+        await connection.query("UPDATE users SET isValidated=1 WHERE idUser=?", idUser)
+        return res.json({ message: "Cuenta verificada!" })
     } catch (error) {
       return res.status(500).send(error.message)
     }
@@ -94,11 +93,8 @@ export const confirmAccount = async (req, res) => {
       if (!matchPassword)
           return res.status(400).json({ message: "Invalid password" })
       
-      const {idUser} = await connection.query(`SELECT idUser FROM users WHERE email = ?`, email)
-                                                         
-      const token = jwt.sign({id: idUser}, config.secret, {
-          expiresIn: 86400 
-      })
+      const [ idUser ] = await connection.query(`SELECT idUser FROM users WHERE email = ?`, email)  
+      const token = jwt.sign({idUser: idUser[0].idUser}, config.secret, { expiresIn: 86400 })
   
       return res.json({ token })
     } catch(error) {

@@ -41,7 +41,6 @@ function App() {
       <div className="body">
         <Routes>
           <Route path="/" element={<Inicio />} />
-          <Route path="/confirmAccount/:token" element={<ConfirmAccount />} />
           { user ?
               <>
                 <Route path="/subject/:idFaculty" element={<Subjects user={user} />} />
@@ -50,6 +49,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
+          <Route path="/confirmAccount/:token" element={<ConfirmAccount />} />
         </Routes>
       </div>
     </div>
