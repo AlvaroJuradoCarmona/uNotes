@@ -27,11 +27,13 @@ const getSubjectById = async (req,res) => {
     }
 }
 
-const getSubjectsByFaculty = async (req,res) => {
+const getSubjectsByFacultyId = async (req,res) => {
     try{
         const connection = await getConnection();
         const {idFaculty} = req.params;
+
         const query = await connection.query("SELECT * FROM subjects WHERE idFaculty = ?", idFaculty);
+        
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
@@ -41,5 +43,5 @@ const getSubjectsByFaculty = async (req,res) => {
 export const methods = { 
     getSubjects, 
     getSubjectById,
-    getSubjectsByFaculty
+    getSubjectsByFacultyId
 };
