@@ -18,13 +18,12 @@ function App() {
   const [user, setUser] = useState(null)
 
   const location = useLocation()
-  
+
   useEffect(() => {
     tokenService.getToken().then(data => {
       if (data) {
         authService.getAccount(data).then(elem => {
           setUser(elem)
-          console.log(elem)
         }).catch(() => {
             tokenService.removeToken()
         })
@@ -43,13 +42,14 @@ function App() {
           <Route path="/" element={<Inicio />} />
           { user ?
               <>
-                <Route path="/subject" element={<Subjects user={user} />} />
-              </> : null
+                  <Route path="subject" element={<Subjects user={user} />} />
+              </> :null
           }
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/recover-password" element={<RecoverPassword />} />
-          <Route path="/confirmAccount/:token" element={<ConfirmAccount />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="recover-password" element={<RecoverPassword />} />
+            <Route path="confirmAccount/:token" element={<ConfirmAccount />} />
+            <Route path="*" element={<p>Path not resolve</p>} />
         </Routes>
       </div>
     </div>
