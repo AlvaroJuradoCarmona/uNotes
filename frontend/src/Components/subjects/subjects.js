@@ -8,9 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FolderIcon from '@mui/icons-material/Folder';
-import subjectsServices from "../../services/subjects.service"
 import { purple } from '@mui/material/colors';
 
+import subjectsServices from "../../services/subjects.service"
 import userServices from "../../services/user.service"
 
 import "./subjects.css";
@@ -19,19 +19,19 @@ export default function SubjectList({user}) {
 
   const [subjects, setSubjects] = useState([])
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const userInfo = await userServices.getUserById(user.idUser);
-        const idFaculty = userInfo[0][0].idFaculty;
-        const subjectsData = await subjectsServices.getSubjectsByFaculty(idFaculty);
-        setSubjects(subjectsData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+  async function fetchData(idUser) {
+    try {
+      const userInfo = await userServices.getUserById(idUser);
+      const idFaculty = userInfo[0][0].idFaculty;
+      const subjectsData = await subjectsServices.getSubjectsByFacultyId(idFaculty);
+      setSubjects(subjectsData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-
-    fetchData();
+  }
+  
+  useEffect(() => {
+    fetchData(user.idUser);
   }, [user.idUser]);
 
   return ( subjects.length !== 0 ?
