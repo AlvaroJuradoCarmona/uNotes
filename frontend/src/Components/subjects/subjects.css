@@ -4,6 +4,14 @@
     margin-right: auto;
   }
 
-  .foldericon {
-    width: 30px;
-  }
+.foldericon {
+  width: 30px;
+}
+
+.subject-row {
+  cursor: pointer; 
+}
+
+.subject-row:hover {
+  background-color: #EDEDED;
+}

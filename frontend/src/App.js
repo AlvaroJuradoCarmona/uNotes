@@ -9,6 +9,7 @@ import Subjects from './Components/subjects/subjects';
 import SignIn from './Components/credentials/signin';
 import RecoverPassword from './Components/credentials/recoverPassword';
 import Navbar from './Components/navbar/navbar';
+import SubjectId from './Components/subjects/idsubject'
 
 import tokenService from './services/token.service'
 import authService from './services/auth.service'
@@ -43,6 +44,7 @@ function App() {
           { user ?
               <>
                   <Route path="subject" element={<Subjects user={user} />} />
+                  <Route path="subject/:id" element={<SubjectId />} />
               </> :null
           }
             <Route path="signup" element={<SignUp />} />

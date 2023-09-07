@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -34,6 +35,12 @@ export default function SubjectList({user}) {
     fetchData(user.idUser);
   }, [user.idUser]);
 
+  const navigate = useNavigate();
+
+  const handleRowClick = (id) => {
+    navigate(`/subject/${id}`);
+  };
+
   return ( subjects.length !== 0 ?
     (<div className="fit_table">
       
@@ -46,10 +53,12 @@ export default function SubjectList({user}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {subjects[0].map(({name}, id) => (
+            {subjects[0].map(({idSubject, name}, id) => (
               <TableRow
                 key={id}
+                className="subject-row"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                onClick={() => handleRowClick(idSubject)}
               >
                 <TableCell className="foldericon"><FolderIcon sx={{ color: purple[500], fontSize: 30}}/></TableCell>
                 <TableCell>{name}</TableCell>
