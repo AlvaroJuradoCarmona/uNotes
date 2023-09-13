@@ -10,6 +10,8 @@ import subjectRoutes from "./routes/subject.routes";
 import universityRoutes from "./routes/university.routes";
 import facultyRoutes from "./routes/faculty.routes";
 import authRoutes from "./routes/auth.routes";
+import fileRoutes from "./routes/file.routes";
+import categoryRoutes from "./routes/category.routes";
 
 const app = express();
 
@@ -29,5 +31,7 @@ app.use("/api/subject", subjectRoutes);
 app.use("/api/university", universityRoutes);
 app.use("/api/faculty", facultyRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/file", fileRoutes);
+app.use("/api/category", categoryRoutes);
 
 export default app;
