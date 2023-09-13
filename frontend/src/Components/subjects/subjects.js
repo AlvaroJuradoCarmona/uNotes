@@ -9,7 +9,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FolderIcon from '@mui/icons-material/Folder';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { purple } from '@mui/material/colors';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 import subjectsServices from "../../services/subjects.service"
 import userServices from "../../services/user.service"
@@ -43,17 +46,24 @@ export default function SubjectList({user}) {
 
   return ( subjects.length !== 0 ?
     (<div className="fit_table">
-      
+      <div className="courseButton">
+        <ButtonGroup  variant="text" color = "secondary" aria-label="outlined large primary button group">
+          <Button sx={{ color: purple[500], width: 100}}>TODAS</Button>
+          <Button sx={{ color: purple[500], width: 100}}>1º CURSO</Button>
+          <Button sx={{ color: purple[500], width: 100}}>2º CURSO</Button>
+          <Button sx={{ color: purple[500], width: 100}}>3º CURSO</Button>
+          <Button sx={{ color: purple[500], width: 100}}>4º CURSO</Button>
+        </ButtonGroup>
+      </div>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>Asignatura</TableCell>
+              
             </TableRow>
           </TableHead>
           <TableBody>
-            {subjects[0].map(({idSubject, name}, id) => (
+            {subjects[0].map(({idSubject, name, documentCount}, id) => (
               <TableRow
                 key={id}
                 className="subject-row"
@@ -62,6 +72,8 @@ export default function SubjectList({user}) {
               >
                 <TableCell className="foldericon"><FolderIcon sx={{ color: purple[500], fontSize: 30}}/></TableCell>
                 <TableCell>{name}</TableCell>
+                <TableCell><AttachFileIcon sx={{ fontSize: 18 }}/></TableCell>
+                <TableCell>{documentCount}</TableCell>
               </TableRow>
             ))}
           </TableBody>
