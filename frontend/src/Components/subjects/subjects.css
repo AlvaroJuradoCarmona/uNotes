@@ -15,3 +15,8 @@
 .subject-row:hover {
   background-color: #EDEDED;
 }
+
+.uploadTitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
