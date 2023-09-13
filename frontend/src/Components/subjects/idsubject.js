@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+/*import { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,22 +8,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FolderIcon from '@mui/icons-material/Folder';
-import filesServices from "../../services/file.service"
-import { purple } from '@mui/material/colors';
+import { purple } from '@mui/material/colors';*/
+import UploadInfoModal from "./modals/uploadInfoModal"
+
+//import fileServices from "../../services/file.service"
 
 
-export default function BasicTable() {
-
-  const [files, setFiles] = useState([])
+export default function BasicTable({ user }) {
+  
+  /*const [files, setFiles] = useState([])
 
   useEffect(() => {
     filesServices.getSubjects().then(p => {
       setFiles(p);
     })
   }, [])
-
-  return ( files.length !== 0 ?
-    (<div className="fit_table">
+*/
+  return ( //files.length !== 0 ?
+    <UploadInfoModal user={user} />
+    /*(<div className="fit_table">
       
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -47,7 +50,7 @@ export default function BasicTable() {
         </Table>
       </TableContainer>
     </div>):
-    (<div><h1>No hay archivos disponibles</h1></div>)
+    (<div><h1>No hay archivos disponibles</h1></div>)*/
   );
   
 }

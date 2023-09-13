@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import UploadButton from '../files/uploadButton';
 
 import "./inicio.css";
 
@@ -15,7 +14,6 @@ export default function Inicio() {
 
   return (
   <>
-  <UploadButton/>
     <div className="nav">
       <div className="buttonSignin">
         <Button variant="contained" onClick={() => routeChange("/signin")}>Iniciar Sesión</Button>

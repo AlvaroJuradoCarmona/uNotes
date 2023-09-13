@@ -44,7 +44,7 @@ function App() {
           { user ?
               <>
                   <Route path="subject" element={<Subjects user={user} />} />
-                  <Route path="subject/:id" element={<SubjectId />} />
+                  <Route path="subject/:id" element={<SubjectId user={user}/>} />
               </> :null
           }
             <Route path="signup" element={<SignUp />} />
