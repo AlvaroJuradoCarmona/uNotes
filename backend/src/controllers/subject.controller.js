@@ -3,13 +3,8 @@ import {getConnection} from "../database";
 const getSubjects = async (req,res) => {
     try{
         const connection = await getConnection();
-        const {course} = req.query;
-        let query;
         
-        if (course === undefined)
-            query = await connection.query("SELECT * FROM subjects");
-        else
-            query = await connection.query("SELECT * FROM subjects WHERE course = ?", course);
+        const query = await connection.query("SELECT * FROM subjects");
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});

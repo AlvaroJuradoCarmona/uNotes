@@ -8,8 +8,7 @@ import fileService from "../../services/file.service"
 export default function BasicTable({ user }) {
   
   const [files, setFiles] = useState([])
-  console.log(files)
-  
+
   useEffect(() => {
     fileService.getFiles().then(p => {
       setFiles(p);
@@ -18,7 +17,6 @@ export default function BasicTable({ user }) {
 
   return (
     <>
-      <UploadInfoModal user={user} />
       <embed src="https://res.cloudinary.com/dlqsfa7ri/image/upload/v1694791684/3SFZZG-yFtgSvKb_nrkm4w.pdf" width="50%" height="600px" />
     </>
   );

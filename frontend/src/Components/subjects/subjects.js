@@ -14,29 +14,38 @@ import { purple } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-import subjectsServices from "../../services/subjects.service"
-import userServices from "../../services/user.service"
+import subjectsService from "../../services/subjects.service"
+import userService from "../../services/user.service"
 
 import "./subjects.css";
 
 export default function SubjectList({user}) {
 
   const [subjects, setSubjects] = useState([])
+  const [courseFiltered, setCourseFiltered] = useState([])
 
   async function fetchData(idUser) {
     try {
-      const userInfo = await userServices.getUserById(idUser);
+      const userInfo = await userService.getUserById(idUser);
       const idFaculty = userInfo[0][0].idFaculty;
-      const subjectsData = await subjectsServices.getSubjectsByFacultyId(idFaculty);
+      const subjectsData = await subjectsService.getSubjectsByFacultyId(idFaculty);
       setSubjects(subjectsData);
+      setCourseFiltered(subjectsData[0]);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
-  
+
   useEffect(() => {
     fetchData(user.idUser);
   }, [user.idUser]);
+
+  function courseFilter (course) {
+    if(course === "")
+      setCourseFiltered(subjects[0])
+    else
+      setCourseFiltered(subjects[0].filter(s => s.course === course))
+  }
 
   const navigate = useNavigate();
 
@@ -44,15 +53,16 @@ export default function SubjectList({user}) {
     navigate(`/subject/${id}`);
   };
 
-  return ( subjects.length !== 0 ?
+  return ( subjects && subjects.length !== 0 ?
     (<div className="fit_table">
       <div className="courseButton">
-        <ButtonGroup  variant="text" color = "secondary" aria-label="outlined large primary button group">
-          <Button sx={{ color: purple[500], width: 100}}>TODAS</Button>
-          <Button sx={{ color: purple[500], width: 100}}>1º CURSO</Button>
-          <Button sx={{ color: purple[500], width: 100}}>2º CURSO</Button>
-          <Button sx={{ color: purple[500], width: 100}}>3º CURSO</Button>
-          <Button sx={{ color: purple[500], width: 100}}>4º CURSO</Button>
+        <ButtonGroup variant="text" color = "secondary" aria-label="outlined large primary button group">
+          <Button onClick={() => courseFilter("")} sx={{ color: purple[500], width: 100}}>TODAS</Button>
+          <Button onClick={() => courseFilter("1º")} sx={{ color: purple[500], width: 100}}>1º CURSO</Button>
+          <Button onClick={() => courseFilter("2º")} sx={{ color: purple[500], width: 100}}>2º CURSO</Button>
+          <Button onClick={() => courseFilter("3º")} sx={{ color: purple[500], width: 100}}>3º CURSO</Button>
+          <Button onClick={() => courseFilter("4º")} sx={{ color: purple[500], width: 100}}>4º CURSO</Button>
+          <Button onClick={() => courseFilter("OPTATIVAS")} sx={{ color: purple[500], width: 100}}>OPTATIVAS</Button>
         </ButtonGroup>
       </div>
       <TableContainer component={Paper}>
@@ -63,7 +73,7 @@ export default function SubjectList({user}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {subjects[0].map(({idSubject, name, documentCount}, id) => (
+            {courseFiltered.map(({idSubject, name, documentCount}, id) => (
               <TableRow
                 key={id}
                 className="subject-row"
