@@ -7,11 +7,6 @@ const getSubjects = async () => {
     return request.then(response => response.data);
 }
 
-const getSubjectsByCourse = async (course) => {
-    const request = axios.get(`${baseUrl}/?course=${course}`);
-    return request.then(response => response.data);
-}
-
 const getSubjectById = async (id) => {
     const request = axios.get(`${baseUrl}/${id}`);
     return request.then(response => response.data);
@@ -24,7 +19,6 @@ const getSubjectsByFacultyId = async (idFaculty) => {
 
 const methods = {
     getSubjects,
-    getSubjectsByCourse,
     getSubjectById,
     getSubjectsByFacultyId
 }

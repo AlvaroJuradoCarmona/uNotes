@@ -103,7 +103,7 @@ export default function BasicModal({ user }) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                defaultValue = ""
+                defaultValue = "Categoria"
                 value={selectedCategory}
                 label="Categoria"
                 onChange={handleCategory}
