@@ -3,13 +3,8 @@ import {getConnection} from "../database";
 const getFiles = async (req,res) => {
     try{
         const connection = await getConnection();
-        const {subject} = req.query;
-        let query;
         
-        if (subject === undefined)
-            query = await connection.query("SELECT * FROM documents");
-        else
-            query = await connection.query("SELECT * FROM documents WHERE idSubject = ? ORDER BY created_at DESC", subject);
+        const query = await connection.query("SELECT * FROM documents");
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
@@ -33,9 +28,25 @@ const addFile = async (req, res) => {
     }
 }
 
+const getFilesBySubjectId = async (req,res) => {
+    try{
+        const connection = await getConnection();
+        const {idSubject} = req.params;
+
+        const query = await connection.query(`SELECT d.idDocument, d.title, d.created_at, d.idCategory, u.username, u.avatar_url 
+                                                FROM documents d LEFT JOIN users u ON d.idUser=u.idUser 
+                                                WHERE d.idSubject = ?;`, idSubject);
+        
+        res.json(query);
+    }catch(error){
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
 
 
 export const methods = { 
     getFiles,
-    addFile
+    addFile,
+    getFilesBySubjectId
 };
