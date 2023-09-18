@@ -11,6 +11,17 @@ const getFiles = async (req,res) => {
     }
 }
 
+const getFileById = async (req,res) => {
+    try{
+        const connection = await getConnection();
+        const {id} = req.params;
+        const query = await connection.query("SELECT * FROM documents WHERE idDocument = ?", id);
+        res.json(query);
+    }catch(error){
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
 const addFile = async (req, res) => {
     try {
         const connection = await getConnection();     
@@ -43,10 +54,9 @@ const getFilesBySubjectId = async (req,res) => {
     }
 }
 
-
-
 export const methods = { 
     getFiles,
+    getFileById,
     addFile,
     getFilesBySubjectId
 };
