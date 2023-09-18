@@ -32,7 +32,6 @@ export default function BasicTable({ user }) {
     try {
       const fileData = await fileService.getFilesBySubjectId(id);
       setFiles(fileData);
-      //setCourseFiltered(subjectsData[0]);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
