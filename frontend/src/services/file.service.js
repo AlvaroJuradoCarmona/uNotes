@@ -7,14 +7,26 @@ const getFiles = async () => {
     return request.then(response => response.data);
 }
 
+const getFileById = async (id) => {
+    const request = axios.get(`${baseUrl}/${id}`);
+    return request.then(response => response.data);
+}
+
 const addFile = (fileData) => {
     const request = axios.post(`${baseUrl}/`, fileData);
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const getFilesBySubjectId = async (idSubject) => {
+    const request = axios.get(`${baseUrl}/subject/${idSubject}`);
+    return request.then(response => response.data);
+}
+
 const   methods = {
     getFiles,
-    addFile
+    getFileById,
+    addFile,
+    getFilesBySubjectId
 }
 
 export default methods;

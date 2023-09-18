@@ -1,23 +1,33 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import UploadInfoModal from "./modals/uploadInfoModal"
+import { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 
-import fileService from "../../services/file.service"
+import CommentModal from './modals/createComment'
 
+import fileService from './../../services/file.service'
 
 export default function BasicTable({ user }) {
   
-  const [files, setFiles] = useState([])
+  const { id } = useParams();
+  const [url, setUrl] = useState("");
 
+  const fetchData = useCallback(async () => {
+    try {
+      const fileData = await fileService.getFileById(id);
+      setUrl(fileData[0][0].url);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }, [id]);
+  
   useEffect(() => {
-    fileService.getFiles().then(p => {
-      setFiles(p);
-    })
-  }, [])
+    fetchData();
+  }, [fetchData]);
 
   return (
     <>
-      <embed src="https://res.cloudinary.com/dlqsfa7ri/image/upload/v1694791684/3SFZZG-yFtgSvKb_nrkm4w.pdf" width="50%" height="600px" />
+      <CommentModal user={user} />
+      {url && <embed src={url} width="50%" height="600px" />} {/* Conditionally render when url exists */}
     </>
   );
 }

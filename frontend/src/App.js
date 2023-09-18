@@ -10,6 +10,7 @@ import SignIn from './Components/credentials/signin';
 import RecoverPassword from './Components/credentials/recoverPassword';
 import Navbar from './Components/navbar/navbar';
 import SubjectId from './Components/subjects/idsubject'
+import File from './Components/files/file'
 
 import tokenService from './services/token.service'
 import authService from './services/auth.service'
@@ -44,7 +45,8 @@ function App() {
           { user ?
               <>
                   <Route path="subject" element={<Subjects user={user} />} />
-                  <Route path="subject/:id" element={<SubjectId user={user}/>} />
+                  <Route path="subject/:id" element={<SubjectId user={user} />} />
+                  <Route path="file/:id" element={<File  user={user} />} />
               </> :null
           }
             <Route path="signup" element={<SignUp />} />
