@@ -11,9 +11,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { useParams } from 'react-router-dom';
 
 import UploadWidget from './../../files/uploadWidget';
+import LicenseInfo from './licenseInfo'
 
 import fileService from '../../../services/file.service'
 import categoryService from '../../../services/categories.service'
+import licenseService from '../../../services/licenses.service'
 
 
 import "./../subjects.css";
@@ -37,6 +39,8 @@ export default function BasicModal({ user }) {
   const [title, setTitle] = React.useState("");
   const [categories, setCategories] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState(1);
+  const [licenses, setLicenses] = React.useState([]);
+  const [selectedLicense, setSelectedLicense] = React.useState(1);
   const [url, updateUrl] = React.useState();
   const [error, updateError] = React.useState();
   const idUser = user.idUser;
@@ -57,10 +61,20 @@ export default function BasicModal({ user }) {
     })
   }, []);
 
+  const handleLicense = ({target}) => {
+    setSelectedLicense(target.value)
+  };
+
+  React.useEffect(() => { 
+    licenseService.getLicenses().then(p => {
+      setLicenses(p);
+    })
+  }, []);
+
   const insertData = (e) => {
     e.preventDefault()
     fileService.addFile({
-      title, url, id, selectedCategory, idUser
+      title, url, id, selectedCategory, idUser, selectedLicense
     }).then(t=>{
       console.log(t)
       setOpen(false)
@@ -134,6 +148,26 @@ export default function BasicModal({ user }) {
 
             {error && <p>{ error }</p>}
           </div>
+
+          <div className="selectorBox">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Licencia</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                defaultValue = "Licencia"
+                value={selectedLicense}
+                label="Licencia"
+                onChange={handleLicense}
+              >
+                {licenses.length > 0 &&
+                  licenses[0].map(({ idLicense, name }) => (
+                    <MenuItem key={idLicense} value={idLicense}>{name}</MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </div>
+          <LicenseInfo />
           
           <Button variant="contained" id="doneButton" onClick={insertData}>Subir</Button>
         </Box>
