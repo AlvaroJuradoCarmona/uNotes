@@ -25,10 +25,10 @@ const getFileById = async (req,res) => {
 const addFile = async (req, res) => {
     try {
         const connection = await getConnection();     
-        const {title, url, id, selectedCategory, idUser} = req.body;
+        const {title, url, id, selectedCategory, idUser, selectedLicense} = req.body;
         console.log(req.body)
         
-        const file = {title, url, idSubject: id, idCategory: selectedCategory, idUser}
+        const file = {title, url, idSubject: id, idCategory: selectedCategory, idUser, idLicense: selectedLicense}
         
         await connection.query(`INSERT INTO documents SET ?`, file);        
         
