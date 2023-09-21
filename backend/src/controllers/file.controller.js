@@ -26,9 +26,26 @@ const addFile = async (req, res) => {
     try {
         const connection = await getConnection();     
         const {title, url, id, selectedCategory, idUser, selectedLicense} = req.body;
-        console.log(req.body)
-        
+        console.log(hola)
         const file = {title, url, idSubject: id, idCategory: selectedCategory, idUser, idLicense: selectedLicense}
+        
+        await connection.query(`INSERT INTO documents SET ?`, file);        
+        
+        res.json("Success!!");
+    } catch (error) {
+        res.status(500)
+        res.send(error.message);
+    }
+}
+
+const addCode = async (req, res) => {
+    try {
+        const connection = await getConnection();     
+        const {title, description, id, idUser, selectedLicense} = req.body;
+        const idCategory = 6
+        console.log(idCategory)
+        
+        const file = {title, description, idSubject: id, idCategory, idUser, idLicense: selectedLicense}
         
         await connection.query(`INSERT INTO documents SET ?`, file);        
         
@@ -58,5 +75,6 @@ export const methods = {
     getFiles,
     getFileById,
     addFile,
+    addCode,
     getFilesBySubjectId
 };
