@@ -13,7 +13,12 @@ const getFileById = async (id) => {
 }
 
 const addFile = (fileData) => {
-    const request = axios.post(`${baseUrl}/`, fileData);
+    const request = axios.post(`${baseUrl}/file`, fileData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const addCode = (fileData) => {
+    const request = axios.post(`${baseUrl}/code`, fileData);
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
@@ -26,6 +31,7 @@ const   methods = {
     getFiles,
     getFileById,
     addFile,
+    addCode,
     getFilesBySubjectId
 }
 
