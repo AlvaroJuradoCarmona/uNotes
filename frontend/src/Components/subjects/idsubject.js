@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 
 import UploadInfoModal from "./modals/uploadInfoModal"
+import UploadCodeModal from "./modals/uploadCodeModal"
 
 import fileService from "../../services/file.service"
 
@@ -57,6 +58,8 @@ export default function BasicTable({ user }) {
   return (
     <>
       <UploadInfoModal user={user} />
+      <UploadCodeModal user={user} />
+
       <div className="selectorBox">
         <FormControl>
           <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
@@ -78,6 +81,7 @@ export default function BasicTable({ user }) {
           </Select>
         </FormControl>
       </div>
+      
       <div>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
