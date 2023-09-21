@@ -1,0 +1,13 @@
+.codeblock {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  margin-left: 5%;
+}
+
+.coding {
+  border-radius: 6px !important;
+  margin: 0 !important;
+  width: 40%;
+  min-height: 800px;
+}
