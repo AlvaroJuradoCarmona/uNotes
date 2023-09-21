@@ -1,13 +1,22 @@
-.codeblock {
+.codecontainer {
   display: flex;
+}
+
+.codeblock {
+  flex: 50;
   justify-content: flex-start;
   text-align: left;
   margin-left: 5%;
+  margin-right: 5%;
 }
 
 .coding {
   border-radius: 6px !important;
   margin: 0 !important;
-  width: 40%;
   min-height: 800px;
+}
+
+.commentsection {
+  flex: 40;
+  margin-right: 5%;
 }
