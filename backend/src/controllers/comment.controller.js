@@ -4,7 +4,7 @@ const getCommentById = async (req,res) => {
     try{
         const connection = await getConnection();
         const {id} = req.params;
-        const query = await connection.query(`SELECT  c.description, c.created_at, u.username, u.avatar_url
+        const query = await connection.query(`SELECT  c.description, DATE_FORMAT(c.created_at, '%d-%m-%Y %H:%i')  AS created_at, u.username, u.avatar_url
                                                 FROM comments c LEFT JOIN users u ON c.idUser=u.idUser 
                                                 WHERE c.idDocument = ?;`, id);
         res.json(query);

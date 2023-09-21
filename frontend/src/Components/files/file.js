@@ -14,6 +14,7 @@ import python from 'react-syntax-highlighter/dist/esm/languages/hljs/python';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import CommentModal from './modals/createComment'
+import Comment from './../comments/comments'
 
 import fileService from './../../services/file.service'
 import categoryService from './../../services/categories.service'
@@ -54,20 +55,35 @@ export default function BasicTable({ user }) {
   return (
     <>
       {url ? (
-      <embed src={url} width="50%" height="600px" />
+        <>
+          <CommentModal user={user} />
+          <div className='codecontainer'>
+            <div className='codeblock'>
+              <embed src={url} width="100%" height="800px" />
+            </div>
+            <div className='commentsection'>
+              <Comment />
+            </div>
+          </div>
+        </>
     ) : (
       <>
         <CommentModal user={user} />
-        <div className='codeblock'>
-          <SyntaxHighlighter
-            className="coding"
-            language={language}
-            showLineNumbers
-            style={docco}
-            wrapLines
-          >
-            {description}
-          </SyntaxHighlighter>
+        <div className='codecontainer'>
+          <div className='codeblock'>
+            <SyntaxHighlighter
+              className="coding"
+              language={language}
+              showLineNumbers
+              style={docco}
+              wrapLines
+            >
+              {description}
+            </SyntaxHighlighter>
+          </div>
+          <div className='commentsection'>
+            <Comment />
+          </div>
         </div>
       </>
       )}
