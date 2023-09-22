@@ -1,6 +1,7 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import Link from '@mui/material/Link';
+import Logo from './../../assets/logo.png'
 
 import "./inicio.css";
 
@@ -15,12 +16,14 @@ export default function Inicio() {
   return (
   <>
     <div className="nav">
-      <div className="buttonSignin">
-        <Button variant="contained" onClick={() => routeChange("/signin")}>Iniciar Sesión</Button>
+      <div className="left">
+        <Link href="/">
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+        </Link>
       </div>
-
-      <div className="buttonSignup">
-        <Button variant="contained" onClick={() => routeChange("/signup")}>Regístrate</Button>
+      <div className="right">
+        <Link className='buttonSignin' variant="contained" onClick={() => routeChange("/signin")}>Iniciar Sesión</Link>
+        <Link className='buttonSignin' variant="contained" onClick={() => routeChange("/signup")}>Regístrate</Link>
       </div>
     </div>
 

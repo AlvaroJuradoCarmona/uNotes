@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       { location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/recover'
-        || location.pathname === '/confirmAccount/:token' ?
+        || location.pathname === '/confirmAccount/:token' || location.pathname === '/' ?
           null : <Navbar user={user} />
       }
       <div className="body">
