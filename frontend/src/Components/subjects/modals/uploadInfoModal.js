@@ -43,11 +43,18 @@ export default function BasicModal({ user }) {
   const [selectedLicense, setSelectedLicense] = React.useState(1);
   const [url, updateUrl] = React.useState();
   const [error, updateError] = React.useState();
+  
+  const [checkTitle, setCheckTitle] = React.useState(false)
+
   const idUser = user.idUser;
   const { id } = useParams();
   
 
   const handleTitle = (event) => {
+    if (event.target.value.length > 5)
+      setCheckTitle(false)
+    else
+      setCheckTitle(true)
     setTitle(event.target.value)
   };
 
@@ -108,7 +115,8 @@ export default function BasicModal({ user }) {
             Subir archivos
           </Typography>
           <div className="uploadTitle">
-            <TextField fullWidth label="Titulo" onChange={handleTitle}/>
+            <TextField fullWidth error={checkTitle} label="Titulo" onChange={handleTitle}/>
+            {checkTitle ? <p className='errorAlert'>Debe tener más de 6 carácteres</p>: null}
           </div>
 
           <div className="selectorBox">
