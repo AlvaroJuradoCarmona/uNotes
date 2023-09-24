@@ -24,3 +24,7 @@
 .courseButton {
   text-align: left;
 }
+
+.errorAlert {
+  color: red;
+}

@@ -41,14 +41,26 @@ export default function BasicModal({ user }) {
   const [selectedLanguage, setSelectedLanguage] = React.useState(6);
   const [licenses, setLicenses] = React.useState([]);
   const [selectedLicense, setSelectedLicense] = React.useState(1);
+
+  const [checkTitle, setCheckTitle] = React.useState(false)
+  const [checkDescription, setCheckDescription] = React.useState(false)
+
   const idUser = user.idUser;
   const { id } = useParams();
 
   const handleTitle = (event) => {
+    if (event.target.value.length > 5)
+      setCheckTitle(false)
+    else
+      setCheckTitle(true)
     setTitle(event.target.value)
   };
 
   const handleDescription = (event) => {
+    if (event.target.value.length > 0)
+      setCheckDescription(false)
+    else
+      setCheckDescription(true)
     setDescription(event.target.value)
   };
 
@@ -75,7 +87,7 @@ export default function BasicModal({ user }) {
   const insertCode = (e) => {
     e.preventDefault()
     fileService.addCode({
-      title, description, id, idUser, selectedLicense
+      title, description, id, idUser, selectedLanguage, selectedLicense
     }).then(t=>{
       console.log(t)
       setOpen(false)
@@ -98,28 +110,31 @@ export default function BasicModal({ user }) {
             Subir archivos
           </Typography>
           <div className="uploadTitle">
-            <TextField fullWidth label="Titulo" onChange={handleTitle}/>
+            <TextField fullWidth error={checkTitle} label="Titulo" onChange={handleTitle}/>
+            {checkTitle ? <p className='errorAlert'>Debe tener más de 6 carácteres</p>: null}
           </div>
 
           <div className="uploadTitle">
             <TextField fullWidth
+            error={checkDescription}
             placeholder="Inserte el comentario"
             multiline
             rows={15}
             onChange={handleDescription}
             />
+            {checkDescription ? <p className='errorAlert'>No debe estar vacío</p>: null}
             <Button target="_blank" rel="noreferrer" href="https://www.markdowntutorial.com/es/">¿No conoces el lenguaje de marcado?</Button>
           </div>
 
           <div className="selectorBox">
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Lenguage</InputLabel>
+              <InputLabel id="demo-simple-select-label">Lenguaje</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                defaultValue = "Lenguage"
+                defaultValue = "Lenguaje"
                 value={selectedLanguage}
-                label="Lenguage"
+                label="Lenguaje"
                 onChange={handleLanguage}
               >
                 {languages.length > 0 &&
