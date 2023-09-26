@@ -1,4 +1,5 @@
 import {getConnection} from "../database";
+import {methods as achievementsLib} from "../libs/achievement"
 
 const getCommentById = async (req,res) => {
     try{
@@ -17,11 +18,14 @@ const addComment = async (req, res) => {
     try {
         const connection = await getConnection();     
         const {description, id, idUser} = req.body;
-        console.log(req.body)
         
         const comment = {description, idDocument: id, idUser}
+        await connection.query(`INSERT INTO comments SET ?`, comment);
         
-        await connection.query(`INSERT INTO comments SET ?`, comment);        
+        if (await achievementsLib.commentCount(idUser) >= 10)
+            await achievementsLib.checkAchievement(4, idUser)
+        else
+            await achievementsLib.checkAchievement(3, idUser)
         
         res.json("Success!!");
     } catch (error) {

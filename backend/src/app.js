@@ -5,7 +5,6 @@ const cors = require("cors");
 
 //Routes
 import userRoutes from "./routes/user.routes";
-import languageRoutes from "./routes/language.routes";
 import subjectRoutes from "./routes/subject.routes";
 import universityRoutes from "./routes/university.routes";
 import facultyRoutes from "./routes/faculty.routes";
@@ -14,6 +13,7 @@ import fileRoutes from "./routes/file.routes";
 import categoryRoutes from "./routes/category.routes";
 import commentRoutes from "./routes/comment.routes";
 import licenseRoutes from "./routes/license.routes";
+import achievementRoutes from "./routes/achievement.routes"
 
 const app = express();
 
@@ -28,7 +28,6 @@ app.use(cors());
 
 //Routes
 app.use("/api/user", userRoutes);
-app.use("/api/language", languageRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/university", universityRoutes);
 app.use("/api/faculty", facultyRoutes);
@@ -37,5 +36,6 @@ app.use("/api/file", fileRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/license", licenseRoutes);
+app.use("/api/achievement", achievementRoutes);
 
 export default app;

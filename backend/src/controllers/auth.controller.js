@@ -3,6 +3,7 @@ import * as authlib from "../libs/authlib"
 import jwt from 'jsonwebtoken'
 import config from "../config";
 import { sendEmailToUser } from "../libs/email"
+import {methods as achievementsLib} from "../libs/achievement"
 
 export const signUp = async (req, res) => {
     try{
@@ -55,14 +56,15 @@ export const confirmAccount = async (req, res) => {
       const connection = await getConnection()
       console.log(token)
       if (token === undefined)
-      {
         return res.status(400).json({message: "Token no encontrado"})
-      }
-        const {idUser} = jwt.verify(token, config.secret)
-        console.log(jwt.verify(token, config.secret))
-        console.log(idUser)
-        await connection.query("UPDATE users SET isValidated=1 WHERE idUser=?", idUser)
-        return res.json({ message: "Cuenta verificada!" })
+      
+      const {idUser} = jwt.verify(token, config.secret)
+      await connection.query("UPDATE users SET isValidated=1 WHERE idUser=?", idUser)
+
+      if (await achievementsLib.userValidation(idUser) == 1)
+        await achievementsLib.checkAchievement(5, idUser)
+
+      return res.json({ message: "Cuenta verificada!" })
     } catch (error) {
       return res.status(500).send(error.message)
     }
