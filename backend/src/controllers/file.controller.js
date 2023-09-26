@@ -27,14 +27,18 @@ const addFile = async (req, res) => {
     try {
         const connection = await getConnection();     
         const {title, url, id, selectedCategory, idUser, selectedLicense} = req.body;
+        
         if(title === '' || url === '')
             return res.status(500).json({message: "Fill all fields"})
+
         const file = {title, url, idSubject: id, idCategory: selectedCategory, idUser, idLicense: selectedLicense}
+        await connection.query(`INSERT INTO documents SET ?`, file);   
         
-        await connection.query(`INSERT INTO documents SET ?`, file);        
-        if(await achievementsLib.checkAchievement(1, idUser)){
-            logroObtenido = true
-        }
+        if (await achievementsLib.fileCount(idUser) >= 10)
+            await achievementsLib.checkAchievement(2, idUser)
+        else
+            await achievementsLib.checkAchievement(1, idUser)
+
         res.json("Success!!");
     } catch (error) {
         res.status(500)
@@ -53,8 +57,12 @@ const addCode = async (req, res) => {
             return res.status(500).json({message: "Needs to be longer"})
 
         const file = {title, description, idSubject: id, idCategory: selectedLanguage, idUser, idLicense: selectedLicense}
-        
         await connection.query(`INSERT INTO documents SET ?`, file);
+
+        if (await achievementsLib.fileCount(idUser) >= 10)
+            await achievementsLib.checkAchievement(2, idUser)
+        else
+            await achievementsLib.checkAchievement(1, idUser)
         
         res.json("Success!!");
     } catch (error) {
