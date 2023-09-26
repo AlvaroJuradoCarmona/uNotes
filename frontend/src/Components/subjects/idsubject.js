@@ -12,6 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
+import Pagination from '@mui/material/Pagination';
 
 import UploadInfoModal from "./modals/uploadInfoModal"
 import UploadCodeModal from "./modals/uploadCodeModal"
@@ -19,15 +20,28 @@ import UploadCodeModal from "./modals/uploadCodeModal"
 import fileService from "../../services/file.service"
 
 export default function BasicTable({ user }) {
-  
   const [files, setFiles] = useState([])
   const [selectedCategory, setSelectedCategory] = React.useState("");
   const [categoryFiltered, setCategoryFiltered] = useState([])
+
+  const [page, setPage] = useState(1);
+  const filesPerPage = 20;
+
   const { id } = useParams();
 
   const handleCategory = (event) => {
     setSelectedCategory(event.target.value)
   };
+
+  const handlePageChange = (event, newPage) => {
+    window.scrollTo(0, 0);
+    setPage(newPage);
+};
+
+const startIndex = (page - 1) * filesPerPage;
+const endIndex = startIndex + filesPerPage;
+const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
+console.log(categoryFiltered)
 
   const fetchData = useCallback(async () => {
     try {
@@ -92,7 +106,7 @@ export default function BasicTable({ user }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {categoryFiltered.map(({ idDocument, title }, id) => (
+              {displayedFiles.map(({ idDocument, title }, id) => (
                 <TableRow
                   key={id}
                   className="subject-row"
@@ -107,6 +121,18 @@ export default function BasicTable({ user }) {
             </TableBody>
           </Table>
         </TableContainer>
+        {categoryFiltered.length > filesPerPage && (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Pagination
+                    count={Math.ceil(categoryFiltered.length / filesPerPage)}
+                    page={page}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    color="secondary"
+                    size="large"
+                />
+              </div>
+            )}
       </div>
     </>
   );
