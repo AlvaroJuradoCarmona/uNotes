@@ -44,10 +44,9 @@ export default function RecipeReviewCard() {
                 <Card key={index} sx={{ marginBottom: 5 }}>
                     <CardHeader
                         avatar={
-                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            </Avatar>
+                            <Avatar sx={{ bgcolor: red[500], width: 35, height: 35 }} aria-label="recipe" src={avatar_url}></Avatar>
                         }
-                        title={username}
+                        title=<strong>{username}</strong>
                         subheader={created_at}
                     />
                     <CardContent>

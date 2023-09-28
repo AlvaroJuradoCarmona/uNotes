@@ -13,6 +13,11 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Pagination from '@mui/material/Pagination';
+import Avatar from '@mui/material/Avatar';
+import { red } from '@mui/material/colors';
+
+import pdfImage from './../../assets/pdf.png';
+import codeImage from './../../assets/code.png';
 
 import UploadInfoModal from "./modals/uploadInfoModal"
 import UploadCodeModal from "./modals/uploadCodeModal"
@@ -41,7 +46,6 @@ export default function BasicTable({ user }) {
 const startIndex = (page - 1) * filesPerPage;
 const endIndex = startIndex + filesPerPage;
 const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
-console.log(categoryFiltered)
 
   const fetchData = useCallback(async () => {
     try {
@@ -70,6 +74,8 @@ console.log(categoryFiltered)
     navigate(`/file/${id}`);
   };
 
+  console.log(displayedFiles)
+
   return (
     <>
       <UploadInfoModal user={user} />
@@ -97,7 +103,7 @@ console.log(categoryFiltered)
         </FormControl>
       </div>
       
-      <div>
+      <div className="fit_table">
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -106,23 +112,33 @@ console.log(categoryFiltered)
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedFiles.map(({ idDocument, title }, id) => (
+              {displayedFiles.map(({ idDocument, title, created_at, username, avatar_url, idCategory }, id) => (
                 <TableRow
                   key={id}
                   className="subject-row"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   onClick={() => handleRowClick(idDocument)}
                 >
-                  <TableCell ></TableCell>
-                  <TableCell>{title}</TableCell>
-
+                  <TableCell sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right' }}>        
+                  {idCategory >= 6 ? (
+                    <img src={codeImage} alt="Código" />
+                  ) : (
+                    <img src={pdfImage} alt="PDF" />
+                  )}
+                  </TableCell>
+                  <TableCell sx={{ fontSize:"16px" }}><strong>{title}</strong></TableCell>
+                  <TableCell>{created_at}</TableCell>
+                  <TableCell sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right' }}>
+                    <Avatar sx={{ bgcolor: red[500], width: 35, height: 35 }} aria-label="recipe" src={avatar_url}></Avatar>
+                  </TableCell>
+                  <TableCell>{username}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
         {categoryFiltered.length > filesPerPage && (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                 <Pagination
                     count={Math.ceil(categoryFiltered.length / filesPerPage)}
                     page={page}

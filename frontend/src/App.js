@@ -12,6 +12,7 @@ import Navbar from './Components/navbar/navbar';
 import SubjectId from './Components/subjects/idsubject'
 import File from './Components/files/file'
 import Achievements from './Components/achievements/achievements'
+import Profile from './Components/profile/profile'
 
 import tokenService from './services/token.service'
 import authService from './services/auth.service'
@@ -49,6 +50,7 @@ function App() {
                   <Route path="subject/:id" element={<SubjectId user={user} />} />
                   <Route path="file/:id" element={<File user={user} />} />
                   <Route path="achievement" element={<Achievements user={user} />} />
+                  <Route path="profile" element={<Profile user={user} />} />
               </> :null
           }
             <Route path="signup" element={<SignUp />} />
