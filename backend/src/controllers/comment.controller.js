@@ -19,6 +19,9 @@ const addComment = async (req, res) => {
         const connection = await getConnection();     
         const {description, id, idUser} = req.body;
         
+        if(description === '')
+            return res.status(500).json({message: "Fill all fields"})
+
         const comment = {description, idDocument: id, idUser}
         await connection.query(`INSERT INTO comments SET ?`, comment);
         

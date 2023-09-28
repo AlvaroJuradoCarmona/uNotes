@@ -10,9 +10,13 @@ import "./credentials.css";
 const RecoverPassword = () => {
 
   const [email, setEmail] = React.useState("");
-
+  const [checkEmail, setCheckEmail] = React.useState(false)
 
   const handleEmail = (event) => {
+    if (event.target.value.length > 0)
+      setCheckEmail(false)
+    else
+      setCheckEmail(true)
     setEmail(event.target.value)
   };
 
@@ -33,7 +37,8 @@ const RecoverPassword = () => {
       <h1>Recover password</h1>
       <div className="signFields">
         <div className="signTextField">
-          <TextField fullWidth label="Correo electrónico" onChange={handleEmail}/>
+          <TextField fullWidth error={checkEmail} label="Correo electrónico" onChange={handleEmail}/>
+          {checkEmail ? <p className='errorAlert'>No debe estar vacío</p>: null}
         </div>
 
         <Button variant="contained" id="signButton" onClick={changePassword}>Iniciar Sesión</Button>

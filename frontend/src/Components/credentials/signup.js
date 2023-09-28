@@ -30,6 +30,11 @@ const SignUp = () => {
   const [selectedFaculty, setSelectedFaculty] = React.useState(1);
   const [selectedUniversity, setSelectedUniversity] = React.useState(1);
 
+  const [checkUsername, setCheckUsername] = React.useState(false)
+  const [checkEmail, setCheckEmail] = React.useState(false)
+  const [checkPassword, setCheckPassword] = React.useState(false)
+  const [checkPasswordConfirmation, setCheckPasswordConfirmation] = React.useState(false)
+
   React.useEffect(() => { 
     universityServices.getUniversities().then(p => {
       setUniversities(p);
@@ -43,18 +48,34 @@ const SignUp = () => {
   }, [selectedUniversity]);
 
   const handleUsername = (event) => {
+    if ((event.target.value.length < 20) && (event.target.value.length > 0))
+      setCheckUsername(false)
+    else
+      setCheckUsername(true)
     setUsername(event.target.value)
   };
 
   const handleEmail = (event) => {
+    if (event.target.value.length > 0)
+      setCheckEmail(false)
+    else
+      setCheckEmail(true)
     setEmail(event.target.value)
   };
 
   const handlePassword = (event) => {
+    if (event.target.value.length > 7)
+      setCheckPassword(false)
+    else
+      setCheckPassword(true)
     setPassword(event.target.value)
   };
 
   const handlePasswordConfirmation = (event) => {
+    if (event.target.value.length > 7)
+      setCheckPasswordConfirmation(false)
+    else
+      setCheckPasswordConfirmation(true)
     setPasswordConfirmation(event.target.value)
   };
 
@@ -95,10 +116,12 @@ const SignUp = () => {
       <h1>Sign up</h1>
       <div className="signFields">
         <div className="signTextField">
-          <TextField fullWidth label="Usuario" onChange={handleUsername}/>
+          <TextField fullWidth error={checkUsername} label="Usuario" onChange={handleUsername}/>
+          {checkUsername ? <p className='errorAlert'>Debe tener entre 0 y 20 carácteres</p>: null}
         </div>
         <div className="signTextField">
-          <TextField fullWidth label="Correo electrónico" onChange={handleEmail}/>
+          <TextField fullWidth error={checkEmail} label="Correo electrónico" onChange={handleEmail}/>
+          {checkEmail ? <p className='errorAlert'>No debe estar vacío</p>: null}
         </div>
 
         <div className="signTextField">
@@ -119,8 +142,10 @@ const SignUp = () => {
                   </InputAdornment>
                 }
                 label="Contraseña"
+                error={checkPassword}
                 onChange={handlePassword}
               />
+              {checkPassword ? <p className='errorAlert'>Debe al menos 8 carácteres</p>: null}
             </FormControl>
           </div>
 
@@ -142,8 +167,10 @@ const SignUp = () => {
                   </InputAdornment>
                 }
                 label="Confirmación"
+                error={checkPasswordConfirmation}
                 onChange={handlePasswordConfirmation}
               />
+              {checkPasswordConfirmation ? <p className='errorAlert'>Debe al menos 8 carácteres</p>: null}
             </FormControl>
           </div>
           <div className="signTextField">
