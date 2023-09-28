@@ -76,7 +76,7 @@ const getFilesBySubjectId = async (req,res) => {
         const connection = await getConnection();
         const {idSubject} = req.params;
 
-        const query = await connection.query(`SELECT d.idDocument, d.title, d.created_at, d.idCategory, u.username, u.avatar_url 
+        const query = await connection.query(`SELECT d.idDocument, d.title, DATE_FORMAT(d.created_at, '%d-%m-%Y') AS created_at, d.idCategory, u.username, u.avatar_url 
                                                 FROM documents d LEFT JOIN users u ON d.idUser=u.idUser 
                                                 WHERE d.idSubject = ?;`, idSubject);
         

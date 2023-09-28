@@ -64,7 +64,7 @@ export default function Inicio() {
 
       <div className="button">
         <div className="state-layer">
-          <div className="label-text">Regístrate</div>
+          <Link className='buttonSignin' variant="contained" onClick={() => routeChange("/signup")}>Regístrate</Link>
         </div>
       </div>
 

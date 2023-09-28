@@ -37,7 +37,7 @@
   height: 50px;
   position: absolute;
   left: 420px;
-  top: 420px;
+  top: 460px;
   overflow: hidden;
 }
 
@@ -68,7 +68,7 @@
   font: 300 40px "Space Mono", monospace;
   position: absolute;
   left: 400px;
-  top: 180px;
+  top: 230px;
   width: 225px;
 }
 
@@ -78,7 +78,7 @@
   font: 300 40px "Space Mono", monospace;
   position: absolute;
   left: 470px;
-  top: 260px;
+  top: 310px;
   width: 222px;
 }
 
@@ -88,7 +88,7 @@
   font: 300 40px "Space Mono", monospace;
   position: absolute;
   left: 543px;
-  top: 340px;
+  top: 390px;
   width: 183px;
 }
 

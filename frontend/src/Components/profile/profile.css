@@ -1,0 +1,43 @@
+.profileHeader {
+    display: flex;
+    align-items: center;
+}
+  
+.profileAvatar {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex: 20%;
+    padding: 16px;
+}
+  
+.profileData {
+    flex: 80%;
+}
+  
+.profileDataContent {
+    display: flex;
+    align-items: center;
+}
+  
+.profileDataContent h1 {
+    width: 40%;
+    text-align: left;
+    font-size: 24px;
+    margin: 0;
+}
+  
+.profileDataContent p {
+    margin: 4px 5px;
+}
+
+
+.profileDataContent .MuiSvgIcon-root {
+    margin-left: 100px;
+}
+  
+.achievementProgression {
+    margin-top: 30px;
+    width: 90%;
+}
+  
