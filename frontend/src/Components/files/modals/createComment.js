@@ -25,11 +25,16 @@ export default function BasicModal({ user }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [description, setDescription] = React.useState("");
+  const [checkDescription, setCheckDescription] = React.useState(false)
 
   const idUser = user.idUser;
   const { id } = useParams();
 
   const handleDescription = (event) => {
+    if (event.target.value.length > 0)
+      setCheckDescription(false)
+    else
+      setCheckDescription(true)
     setDescription(event.target.value)
   };
 
@@ -62,9 +67,11 @@ export default function BasicModal({ user }) {
             <TextField fullWidth
             placeholder="Inserte el comentario"
             multiline
+            error={checkDescription}
             rows={2}
             onChange={handleDescription}
             />
+            {checkDescription ? <p className='errorAlert'>No debe estar vacío</p>: null}
           </div>
           <Button variant="contained" id="doneButton" onClick={insertData}>Subir</Button>
         </Box>

@@ -20,6 +20,9 @@ const SignIn = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const [checkEmail, setCheckEmail] = React.useState(false)
+  const [checkPassword, setCheckPassword] = React.useState(false)
+
   let nav = useNavigate()
 
   React.useEffect(() => {
@@ -30,10 +33,18 @@ const SignIn = () => {
   }, [nav])
 
   const handleEmail = (event) => {
+    if (event.target.value.length > 0)
+      setCheckEmail(false)
+    else
+      setCheckEmail(true)
     setEmail(event.target.value)
   };
 
   const handlePassword = (event) => {
+    if (event.target.value.length > 7)
+      setCheckPassword(false)
+    else
+      setCheckPassword(true)
     setPassword(event.target.value)
   };
 
@@ -66,7 +77,8 @@ const SignIn = () => {
       <h1>Sign in</h1>
       <div className="signFields">
         <div className="signTextField">
-          <TextField fullWidth label="Correo electrónico" onChange={handleEmail}/>
+          <TextField fullWidth error={checkEmail} label="Correo electrónico" onChange={handleEmail}/>
+          {checkEmail ? <p className='errorAlert'>No debe estar vacío</p>: null}
         </div>
 
         <div className="signTextField">
@@ -87,8 +99,10 @@ const SignIn = () => {
                   </InputAdornment>
                 }
                 label="Contraseña"
+                error={checkPassword}
                 onChange={handlePassword}
               />
+              {checkPassword ? <p className='errorAlert'>Debe al menos 8 carácteres</p>: null}
             </FormControl>
           </div>
 
