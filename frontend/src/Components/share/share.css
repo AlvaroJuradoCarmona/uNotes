@@ -1,0 +1,19 @@
+.footerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #505050;
+    margin-top: 70px;
+}
+
+.footerLogo {
+    margin-left: 10%;
+}
+
+.footerContact {
+    color:rgba(255, 255, 255, 0.849);
+}
+
+.footerSocials {
+    margin-right: 10%;
+}
