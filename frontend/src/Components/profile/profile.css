@@ -40,4 +40,59 @@
     margin-top: 30px;
     width: 90%;
 }
-  
+
+.profileBody {
+    display: flex;
+}
+
+.profileFiles {
+    width: 40%;
+    margin-left: 10%;
+    border: 1px solid #ccc;
+}
+
+.profileFilesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 35px;
+    margin-bottom: 30px;
+    height: 40px;
+    
+}
+
+.profileFileIcon {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.profileAchievements {
+    width: 40%;
+    margin-left: 5%;
+    border: 1px solid #ccc;
+}
+
+.achievementprofCard {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.achievementprofCardWithFilter {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.achievementprofCardWithFilter .MuiAvatar-root img {
+    filter: grayscale(100%);
+}
+
+.achievementprofCard .MuiCardHeader-title {
+    margin-bottom: 10px; 
+}

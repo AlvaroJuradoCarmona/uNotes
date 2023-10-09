@@ -2,6 +2,7 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import Logo from './../../assets/logo.png'
 
 import authService from '../../services/auth.service'
 
@@ -34,7 +35,10 @@ const RecoverPassword = () => {
   return (
   <div className="signContainer">
     <div className="signBox">
-      <h1>Recover password</h1>
+      <Link href="/">
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+      </Link>
+      <h1>Recuperar contraseña</h1>
       <div className="signFields">
         <div className="signTextField">
           <TextField fullWidth error={checkEmail} label="Correo electrónico" onChange={handleEmail}/>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
@@ -10,17 +11,18 @@ import "./achievements.css"
 
 import achievementService from './../../services/achievement.service'
 
-export default function RecipeReviewCard({ user }) {
+export default function RecipeReviewCard() {
    const [achievement, setAchievement] = useState([]);
    const [count, setUserCount] = useState("");
    const [totalCount, setTotalCount] = useState("");
    const [barValue, setBarValue] = useState(0);
+   const { id } = useParams();
 
-   async function fetchData(idUser) {
+   async function fetchData(id) {
         try {
-            const achievementData = await achievementService.getAchievementsByUser(idUser);
+            const achievementData = await achievementService.getAchievementsByUser(id);
             setAchievement(achievementData[0])
-            const countData = await achievementService.getAchievementsByUserCount(idUser);
+            const countData = await achievementService.getAchievementsByUserCount(id);
             setUserCount(countData[0][0].achievementsCount)
             const totalcountData = await achievementService.getAchievementsCount();
             setTotalCount(totalcountData[0][0].totalCount)
@@ -32,9 +34,8 @@ export default function RecipeReviewCard({ user }) {
       }
     
       useEffect(() => {
-        fetchData(user.idUser);
-      }, [user.idUser]);
-
+        fetchData(id);
+      }, [id]);
 
     return (
     <>

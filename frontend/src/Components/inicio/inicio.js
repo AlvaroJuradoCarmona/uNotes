@@ -21,7 +21,7 @@ export default function Inicio() {
           <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
         </Link>
       </div>
-      <div className="right">
+      <div className="rightNav">
         <Link className='buttonSignin' variant="contained" onClick={() => routeChange("/signin")}>Iniciar Sesión</Link>
         <Link className='buttonSignin' variant="contained" onClick={() => routeChange("/signup")}>Regístrate</Link>
       </div>
@@ -77,7 +77,7 @@ export default function Inicio() {
     <div className="container">
       <div className="vineta1" />
       <div className="texto1">
-        <h1>Comparte, descubre y triunfa en tus examenes! </h1>
+        <h1>Comparte, descubre y triunfa en tus exámenes! </h1>
         <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqui anim id est laborum . Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"</p>
       </div>
     </div>
