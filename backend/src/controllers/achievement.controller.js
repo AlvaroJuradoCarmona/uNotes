@@ -5,15 +5,16 @@ const getAchievementsByUser = async (req,res) => {
         const connection = await getConnection();
         const {id} = req.params;
 
-        let query = await connection.query(`SELECT a.idAchievement, a.title, a.description, a.url_img, u.idUser 
+        let query = await connection.query(`SELECT a.idAchievement, a.title, a.description, a.url_img, u.idUser, u.created_at 
                                             FROM users_achievements u LEFT JOIN achievements a ON u.idAchievement = a.idAchievement 
                                             WHERE u.idUser = ? UNION 
-                                            SELECT a.idAchievement, a.title, a.description, a.url_img, null as idUser 
+                                            SELECT a.idAchievement, a.title, a.description, a.url_img, null as idUser, null as created_at 
                                             FROM achievements a 
                                             WHERE a.idAchievement NOT IN 
                                             (SELECT u.idAchievement 
                                             FROM users_achievements u LEFT JOIN achievements a ON u.idAchievement=a.idAchievement 
-                                            WHERE u.idUser=?);`, [id, id]);
+                                            WHERE u.idUser=?)
+                                            ORDER BY created_at DESC;`, [id, id]);
 
         res.json(query);
     }catch(error){

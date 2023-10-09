@@ -4,7 +4,7 @@ const getSubjects = async (req,res) => {
     try{
         const connection = await getConnection();
         
-        const query = await connection.query("SELECT * FROM subjects");
+        const query = await connection.query("SELECT idSubject, name FROM subjects");
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
@@ -16,6 +16,7 @@ const getSubjectById = async (req,res) => {
         const connection = await getConnection();
         const {id} = req.params;
         const query = await connection.query("SELECT * FROM subjects WHERE idSubject = ?", id);
+
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
@@ -39,8 +40,25 @@ const getSubjectsByFacultyId = async (req,res) => {
     }
 }
 
+const getSearchInfo = async (req,res) => {
+    try{
+        const connection = await getConnection();
+
+        const query = await connection.query(`(SELECT s.idSubject as id, s.name, "Asignatura" as idCategory 
+                                                FROM subjects s) UNION 
+                                                (SELECT idDocument, title, "Archivo" 
+                                                FROM documents) 
+                                                ORDER BY name ASC;`);
+
+        res.json(query);
+    }catch(error){
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
 export const methods = { 
     getSubjects, 
     getSubjectById,
-    getSubjectsByFacultyId
+    getSubjectsByFacultyId,
+    getSearchInfo
 };
