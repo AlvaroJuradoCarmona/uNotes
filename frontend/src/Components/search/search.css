@@ -1,0 +1,15 @@
+.searchButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    background-color: #6750A4;
+    transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #4D3D6E;
+}
+  

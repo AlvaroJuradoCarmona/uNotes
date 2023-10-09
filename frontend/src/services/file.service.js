@@ -27,12 +27,18 @@ const getFilesBySubjectId = async (idSubject) => {
     return request.then(response => response.data);
 }
 
+const getFilesByUserId = async (idUser) => {
+    const request = axios.get(`${baseUrl}/profile/${idUser}`);
+    return request.then(response => response.data);
+}
+
 const   methods = {
     getFiles,
     getFileById,
     addFile,
     addCode,
-    getFilesBySubjectId
+    getFilesBySubjectId,
+    getFilesByUserId
 }
 
 export default methods;
