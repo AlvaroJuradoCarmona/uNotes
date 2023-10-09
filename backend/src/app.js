@@ -14,6 +14,7 @@ import categoryRoutes from "./routes/category.routes";
 import commentRoutes from "./routes/comment.routes";
 import licenseRoutes from "./routes/license.routes";
 import achievementRoutes from "./routes/achievement.routes"
+import rankingRoutes from "./routes/ranking.routes"
 
 const app = express();
 
@@ -37,5 +38,6 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/license", licenseRoutes);
 app.use("/api/achievement", achievementRoutes);
+app.use("/api/ranking", rankingRoutes);
 
 export default app;
