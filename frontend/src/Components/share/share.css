@@ -1,3 +1,44 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+  
+.left {
+    display: flex;
+    align-items: center;
+}
+  
+.rightNav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rightNav .textNav {
+  font-size: large;
+}
+  
+.buttonSignin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    width: 134px;
+    height: 40px;
+    
+    background: #6750A4;
+    border-radius: 100px;
+    color: white !important;
+    text-decoration: none;
+}
+  
+.buttonSignin:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .footerContainer {
     display: flex;
     align-items: center;

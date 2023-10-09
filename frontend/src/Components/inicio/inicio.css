@@ -355,39 +355,3 @@ p {
     display: none;
   }
 }
-
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-}
-
-.left {
-  display: flex;
-  align-items: center;
-}
-
-.right {
-  display: flex;
-  gap: 10px;
-}
-
-.buttonSignin{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  width: 134px;
-  height: 40px;
-  
-  background: #6750A4;
-  border-radius: 100px;
-  color: white !important;
-  text-decoration: none;
-}
-
-.buttonSignin:hover {
-  text-decoration: none;
-  cursor: pointer;
-}

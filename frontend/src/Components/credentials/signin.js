@@ -9,6 +9,8 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import Logo from './../../assets/logo.png'
 
 import authService from '../../services/auth.service'
 import tokenService from '../../services/token.service'
@@ -74,7 +76,10 @@ const SignIn = () => {
   return (
   <div className="signContainer">
     <div className="signBox">
-      <h1>Sign in</h1>
+      <Link href="/">
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+      </Link>
+      <h1>Iniciar sesión</h1>
       <div className="signFields">
         <div className="signTextField">
           <TextField fullWidth error={checkEmail} label="Correo electrónico" onChange={handleEmail}/>

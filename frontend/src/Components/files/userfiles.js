@@ -19,9 +19,6 @@ import { red } from '@mui/material/colors';
 import pdfImage from './../../assets/pdf.png';
 import codeImage from './../../assets/code.png';
 
-import UploadInfoModal from "./modals/uploadInfoModal"
-import UploadCodeModal from "./modals/uploadCodeModal"
-
 import fileService from "../../services/file.service"
 
 export default function BasicTable({ user }) {
@@ -49,7 +46,7 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
 
   const fetchData = useCallback(async () => {
     try {
-      const fileData = await fileService.getFilesBySubjectId(id);
+      const fileData = await fileService.getFilesByUserId(id);
       setFiles(fileData);
       setCategoryFiltered(fileData[0])
     } catch (error) {
@@ -76,9 +73,6 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
 
   return (
     <>
-      <UploadInfoModal user={user} />
-      <UploadCodeModal user={user} />
-
       <div className="selectorBox">
         <FormControl>
           <InputLabel id="demo-simple-select-label">Categoria</InputLabel>

@@ -8,13 +8,16 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import authService from '../../services/auth.service'
-import tokenService from '../../services/token.service'
-
-import facultyServices from '../../services/faculty.service';
-import universityServices from '../../services/university.service';
+import Link from '@mui/material/Link';
+import Logo from './../../assets/logo.png'
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+
+import authService from '../../services/auth.service'
+import tokenService from '../../services/token.service'
+import facultyServices from '../../services/faculty.service';
+import universityServices from '../../services/university.service';
+
 
 import "./credentials.css";
 
@@ -113,7 +116,10 @@ const SignUp = () => {
   return (
   <div className="signContainer">
     <div className="signBox">
-      <h1>Sign up</h1>
+      <Link href="/">
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+      </Link>
+      <h1>Regístrate</h1>
       <div className="signFields">
         <div className="signTextField">
           <TextField fullWidth error={checkUsername} label="Usuario" onChange={handleUsername}/>
