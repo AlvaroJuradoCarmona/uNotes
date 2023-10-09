@@ -17,10 +17,16 @@ const getSubjectsByFacultyId = async (idFaculty) => {
     return request.then(response => response.data);
 }
 
+const getSearchInfo = async () => {
+    const request = axios.get(`${baseUrl}/search/info`);
+    return request.then(response => response.data);
+}
+
 const methods = {
     getSubjects,
     getSubjectById,
-    getSubjectsByFacultyId
+    getSubjectsByFacultyId,
+    getSearchInfo
 }
 
 export default methods;
