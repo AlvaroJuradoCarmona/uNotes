@@ -42,6 +42,21 @@ export default function RecipeReviewCard() {
         fetchData(id);
       }, [id]);
 
+      function getLevel(experience) {
+        const a = 1;
+        const b = 1;
+        
+        const level = Math.floor(a * Math.log(experience/50) + b);
+        const percentage = Math.floor((a * Math.log(experience/50) + b) * 100) % 100;
+
+        return {
+            level: level,
+            percentage: percentage
+        };
+      }
+      
+      const expInfo = getLevel(userData.experience);
+
       const navigate = useNavigate();
 
       const handleRowClick = (id) => {
@@ -75,11 +90,12 @@ export default function RecipeReviewCard() {
                     className="achievementProgression"
                     variant="determinate"
                     color="secondary"
-                    value={20}
+                    value={expInfo.percentage}
                     style={{
                         height: '20px',
                     }}
                     />
+                    <p>Nivel {expInfo.level} - {expInfo.percentage} %</p>
                 </div>
             </div>
         </div>
@@ -108,7 +124,7 @@ export default function RecipeReviewCard() {
                                 <strong>{title}</strong>
                                 
                             </td>
-                            <hr style={{ marginRight: '30px', marginLeft: '15px' }} />
+                            
                         </tr>
                         ))}
                     </tbody>
