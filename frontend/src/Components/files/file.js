@@ -2,6 +2,13 @@ import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import IconButton from '@mui/material/IconButton';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DownloadIcon from '@mui/icons-material/Download';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+
 
 import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import c from 'react-syntax-highlighter/dist/esm/languages/hljs/c';
@@ -27,6 +34,7 @@ export default function BasicTable({ user }) {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState("");
+  const [fontSize, setFontSize] = useState(16);
 
   const fetchData = useCallback(async () => {
     try {
@@ -52,6 +60,30 @@ export default function BasicTable({ user }) {
   SyntaxHighlighter.registerLanguage('php', php);
   SyntaxHighlighter.registerLanguage('python', python);
 
+  const Code = ({ children, className }) => {
+    return <div className={className}>{children}</div>;
+  };
+  
+  const downloadTxtFile = () => {
+    const element = document.createElement('a');
+    const file = new Blob([description], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'myFile.txt';
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const increaseFontSize = () => {
+    setFontSize(prevSize => {
+      const newSize = prevSize + 2;
+      return newSize <= 30 ? newSize : prevSize;
+    });
+  };
+
+  const decreaseFontSize = () => {
+    setFontSize(prevSize => Math.max(prevSize - 2, 8));
+  };
+
   return (
     <>
       {url ? (
@@ -70,17 +102,39 @@ export default function BasicTable({ user }) {
       <>
         <CommentModal user={user} />
         <div className='codecontainer'>
-          <div className='codeblock'>
+          <Code className="codeblock">
+            <div className="codeheader">
+              <IconButton aria-label="Decrementa tamaño letra" onClick={decreaseFontSize}>
+                <RemoveIcon />
+              </IconButton>
+              <IconButton aria-label="Incrementa tamaño letra" onClick={increaseFontSize}>
+                <AddIcon />
+              </IconButton>
+              <CopyToClipboard text={description}>
+                <IconButton aria-label="Copiar">
+                  <ContentCopyIcon />
+                </IconButton>
+              </CopyToClipboard>
+              <IconButton aria-label='Descargar' onClick={downloadTxtFile}>
+                <DownloadIcon />
+              </IconButton>
+              
+            </div>
             <SyntaxHighlighter
               className="coding"
               language={language}
               showLineNumbers
               style={docco}
+              codeTagProps = {{
+              style: {
+              fontSize: `${fontSize}px`
+              }
+              }}
               wrapLines
             >
               {description}
             </SyntaxHighlighter>
-          </div>
+          </Code>
           <div className='commentsection'>
             <Comment />
           </div>

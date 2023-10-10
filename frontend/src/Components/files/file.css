@@ -9,9 +9,15 @@
   margin-left: 5%;
   margin-right: 5%;
 }
+.codeheader {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #F8F8FF;
+  border-bottom: 1px solid rgba(77, 70, 70, 0.219);
+}
 
 .coding {
-  border-radius: 6px !important;
+
   margin: 0 !important;
   min-height: 800px;
 }
