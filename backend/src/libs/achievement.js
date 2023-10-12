@@ -8,11 +8,28 @@ const getAchievement = async (id) => {
     return res
 }
 
-const insertAchievement = async (idAchievement, idUser) => {
+const insertPoints = async (idUser, additionalPoints) => {
+    try{
+        const connection = await getConnection();
+        const data = {idUser, additionalPoints}
+
+        const currentPointsResult = await connection.query("SELECT points FROM users WHERE idUser = ?;", idUser);
+        const currentPoints = currentPointsResult[0][0].points;
+        data.points = currentPoints + additionalPoints;
+        console.log(data.points)
+
+        await connection.query("UPDATE users SET points = ? WHERE idUser = ?", [data.points, idUser]);
+    }catch{
+        return false
+    }
+}
+
+const insertAchievement = async (idAchievement, idUser, additionalPoints) => {
     try{
         const connection = await getConnection();
         const data = {idAchievement, idUser}
-        await connection.query("INSERT INTO users_achievements SET ?", data)
+        await connection.query("INSERT INTO users_achievements SET ?", data);
+        return true;
     }catch{
         return false
     }
@@ -23,10 +40,13 @@ const lookAchievement = async (idAchievement, idUser) => {
     return res.includes(idAchievement)
 }
 
-const checkAchievement = async (idAchievement, idUser) => {
+const checkAchievement = async (idAchievement, idUser, additionalPoints) => {
     if(!await lookAchievement(idAchievement, idUser)){
-        await insertAchievement(idAchievement, idUser)
-        return true
+        const achievementInserted = await insertAchievement(idAchievement, idUser)
+        if (achievementInserted) {
+            await insertPoints(idUser, additionalPoints);
+            return true;
+        }
     } 
     return false
 }
