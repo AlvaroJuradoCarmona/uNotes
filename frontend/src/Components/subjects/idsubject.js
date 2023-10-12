@@ -41,11 +41,11 @@ export default function BasicTable({ user }) {
   const handlePageChange = (event, newPage) => {
     window.scrollTo(0, 0);
     setPage(newPage);
-};
+  };
 
-const startIndex = (page - 1) * filesPerPage;
-const endIndex = startIndex + filesPerPage;
-const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
+  const startIndex = (page - 1) * filesPerPage;
+  const endIndex = startIndex + filesPerPage;
+  const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
 
   const fetchData = useCallback(async () => {
     try {
@@ -70,9 +70,16 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
 
   const navigate = useNavigate();
 
-  const handleRowClick = (id) => {
-    navigate(`/file/${id}`);
-  };
+  const insertData = (idDocument) => {
+    fileService.addViewLog({
+      idUser: user.idUser, idDocument
+    }).then(t=>{
+      console.log(t)
+      navigate(`/file/${idDocument}`);
+    }).catch(e=>{
+      console.log(e);
+    })
+  }
 
   return (
     <>
@@ -115,7 +122,7 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
                   key={id}
                   className="subject-row"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  onClick={() => handleRowClick(idDocument)}
+                  onClick={() => insertData(idDocument)}
                 >
                   <TableCell sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right' }}>        
                   {idCategory >= 6 ? (

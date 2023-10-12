@@ -32,13 +32,19 @@ const getFilesByUserId = async (idUser) => {
     return request.then(response => response.data);
 }
 
+const addViewLog = (fileData) => {
+    const request = axios.post(`${baseUrl}/view`, fileData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
 const   methods = {
     getFiles,
     getFileById,
     addFile,
     addCode,
     getFilesBySubjectId,
-    getFilesByUserId
+    getFilesByUserId,
+    addViewLog
 }
 
 export default methods;

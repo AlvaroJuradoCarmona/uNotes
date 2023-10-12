@@ -35,9 +35,9 @@ const addFile = async (req, res) => {
         await connection.query(`INSERT INTO documents SET ?`, file);   
         
         if (await achievementsLib.fileCount(idUser) >= 10)
-            await achievementsLib.checkAchievement(2, idUser)
+            await achievementsLib.checkAchievement(2, idUser, 200)
         else
-            await achievementsLib.checkAchievement(1, idUser)
+            await achievementsLib.checkAchievement(1, idUser, 50)
 
         res.json("Success!!");
     } catch (error) {
@@ -60,9 +60,9 @@ const addCode = async (req, res) => {
         await connection.query(`INSERT INTO documents SET ?`, file);
 
         if (await achievementsLib.fileCount(idUser) >= 10)
-            await achievementsLib.checkAchievement(2, idUser)
+            await achievementsLib.checkAchievement(2, idUser, 200)
         else
-            await achievementsLib.checkAchievement(1, idUser)
+            await achievementsLib.checkAchievement(1, idUser, 50)
         
         res.json("Success!!");
     } catch (error) {
@@ -102,11 +102,38 @@ const getFilesByUserId = async (req,res) => {
     }
 }
 
+const addViewLog = async (req,res) => {
+    try {
+        const connection = await getConnection();     
+        const { idUser, idDocument } = req.body;
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const formattedYesterday = yesterday.toISOString().split('T')[0];
+
+        const [ existingView ] = await connection.query(`SELECT * FROM views_log 
+                                                    WHERE idUser = ? AND idDocument = ? AND view_at >= ?`, 
+                                                    [idUser, idDocument, formattedYesterday]);
+        
+        if (existingView.length < 1){
+            const view = { idUser, idDocument };
+            await connection.query('INSERT INTO views_log SET ?', view);
+            await connection.query('UPDATE documents SET views = views + 1 WHERE idDocument = ?', [idDocument]);
+        }
+
+        res.json("Success!!");
+    } catch (error) {
+        res.status(500)
+        res.send(error.message);
+    }
+}
+
 export const methods = { 
     getFiles,
     getFileById,
     addFile,
     addCode,
     getFilesBySubjectId,
-    getFilesByUserId
+    getFilesByUserId,
+    addViewLog
 };
