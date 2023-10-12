@@ -26,9 +26,9 @@ const addComment = async (req, res) => {
         await connection.query(`INSERT INTO comments SET ?`, comment);
         
         if (await achievementsLib.commentCount(idUser) >= 10)
-            await achievementsLib.checkAchievement(4, idUser)
+            await achievementsLib.checkAchievement(4, idUser, 200)
         else
-            await achievementsLib.checkAchievement(3, idUser)
+            await achievementsLib.checkAchievement(3, idUser, 50)
         
         res.json("Success!!");
     } catch (error) {
