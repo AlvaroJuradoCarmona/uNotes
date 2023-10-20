@@ -1,0 +1,21 @@
+.adminTabs {
+    display: flex;
+    
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 10%;
+}
+
+.adminContentBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.adminModalButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}

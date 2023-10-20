@@ -16,6 +16,7 @@ import Achievements from './Components/achievements/achievements'
 import Profile from './Components/profile/profile'
 import Ranking from './Components/ranking/ranking'
 import UserFiles from './Components/files/userfiles'
+import Admin from './Components/adminpanel/admin'
 
 import tokenService from './services/token.service'
 import authService from './services/auth.service'
@@ -55,13 +56,16 @@ function App() {
           <Route path="/" element={<Inicio />} />
           { user ?
               <>
-                  <Route path="subject" element={<Subjects user={user} />} />
-                  <Route path="subject/:id" element={<SubjectId user={user} />} />
-                  <Route path="file/:id" element={<File user={user} />} />
-                  <Route path="achievement/:id" element={<Achievements />} />
-                  <Route path="profile/:id" element={<Profile />} />
-                  <Route path="ranking" element={<Ranking user={user} />} />
-                  <Route path="profile/file/:id" element={<UserFiles user={user} />} />
+                { user.isAdmin === 1 ?
+                  <Route path="/adminpanel" element={<Admin />} /> : null
+                }
+                <Route path="subject" element={<Subjects user={user} />} />
+                <Route path="subject/:id" element={<SubjectId user={user} />} />
+                <Route path="file/:id" element={<File user={user} />} />
+                <Route path="achievement/:id" element={<Achievements />} />
+                <Route path="profile/:id" element={<Profile />} />
+                <Route path="ranking" element={<Ranking user={user} />} />
+                <Route path="profile/file/:id" element={<UserFiles user={user} />} />
               </> :null
           }
             <Route path="signup" element={<SignUp />} />
