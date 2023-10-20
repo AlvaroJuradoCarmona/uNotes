@@ -22,11 +22,17 @@ const getSearchInfo = async () => {
     return request.then(response => response.data);
 }
 
+const deleteSubject = async (idSubject) => {
+    const request = axios.delete(`${baseUrl}/${idSubject}`)
+    return request.then(response => response.data)
+}
+
 const methods = {
     getSubjects,
     getSubjectById,
     getSubjectsByFacultyId,
-    getSearchInfo
+    getSearchInfo,
+    deleteSubject
 }
 
 export default methods;
