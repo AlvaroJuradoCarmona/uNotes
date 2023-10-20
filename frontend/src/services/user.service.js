@@ -2,13 +2,25 @@ import axios from 'axios';
 
 const baseUrl = `${process.env.REACT_APP_URL}/user`;
 
+const getUsers = async () => {
+    const request = axios.get(`${baseUrl}/users`);
+    return request.then(response => response.data);
+}
+
 const getUserById = async (idUser) => {
     const request = axios.get(`${baseUrl}/getUserById/${idUser}`);
     return request.then(response => response.data);
 }
 
+const deleteUser = async (idUser) => {
+    const request = axios.delete(`${baseUrl}/${idUser}`)
+    return request.then(response => response.data)
+}
+
 const methods = {
-    getUserById
+    getUsers,
+    getUserById,
+    deleteUser
 }
 
 export default methods;

@@ -37,8 +37,8 @@ export const signUp = async (req, res) => {
         const user = {username, "email": emailLower, "password": passwordEncrypt, idUniversity: selectedUniversity, idFaculty: selectedFaculty}
         await connection.query("INSERT INTO users SET ?", user)
 
-        const [ idUser ] = await connection.query(`SELECT idUser FROM users WHERE email = ?`, emailLower)
-        const token = jwt.sign({idUser: idUser[0].idUser}, config.secret, { expiresIn: 86400 })
+        const [ userInfo ] = await connection.query(`SELECT idUser, isAdmin FROM users WHERE email = ?`, emailLower)
+        const token = jwt.sign({idUser: userInfo[0].idUser, isAdmin: userInfo[0].isAdmin}, config.secret, { expiresIn: 86400 })
 
         const subject = "Bienvenido a uNotes"
         const activationLink = `${config.react_host}confirmAccount/${token}`
@@ -75,9 +75,9 @@ export const confirmAccount = async (req, res) => {
 
     if (token === undefined)
       return res.status(400).json({"message": "Token no encontrado"})
-    const {idUser} = jwt.verify(token, config.secret)
+    const rest = jwt.verify(token, config.secret)
 
-    return res.json({"idUser": idUser})
+    return res.json({"idUser": rest.idUser, "isAdmin": rest.isAdmin})
   }
 
   export const signIn = async (req, res) => {
@@ -95,9 +95,10 @@ export const confirmAccount = async (req, res) => {
       if (!matchPassword)
           return res.status(400).json({ message: "Invalid password" })
       
-      const [ idUser ] = await connection.query(`SELECT idUser FROM users WHERE email = ?`, email)  
-      const token = jwt.sign({idUser: idUser[0].idUser}, config.secret, { expiresIn: 86400 })
-  
+      const [ userInfo ] = await connection.query(`SELECT idUser, isAdmin FROM users WHERE email = ?`, email)
+
+      const token = jwt.sign({idUser: userInfo[0].idUser, isAdmin: userInfo[0].isAdmin}, config.secret, { expiresIn: 86400 })
+      
       return res.json({ token })
     } catch(error) {
       return res.status(500).send(error.message)
