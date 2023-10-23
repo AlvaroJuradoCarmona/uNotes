@@ -12,9 +12,15 @@ const addComment = (commentData) => {
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const deleteComment = async (idComment) => {
+    const request = axios.delete(`${baseUrl}/delcomment/${idComment}`)
+    return request.then(response => response.data)
+}
+
 const   methods = {
     getCommentById,
-    addComment
+    addComment,
+    deleteComment
 }
 
 export default methods;

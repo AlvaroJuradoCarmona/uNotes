@@ -5,7 +5,7 @@ const getCommentById = async (req,res) => {
     try{
         const connection = await getConnection();
         const {id} = req.params;
-        const query = await connection.query(`SELECT  c.description, DATE_FORMAT(c.created_at, '%d-%m-%Y %H:%i')  AS created_at, u.username, u.avatar_url
+        const query = await connection.query(`SELECT  c.idComment, c.description, DATE_FORMAT(c.created_at, '%d-%m-%Y %H:%i')  AS created_at, u.idUser, u.username, u.avatar_url
                                                 FROM comments c LEFT JOIN users u ON c.idUser=u.idUser 
                                                 WHERE c.idDocument = ?;`, id);
         res.json(query);
@@ -37,7 +37,21 @@ const addComment = async (req, res) => {
     }
 }
 
+const deleteComment = async (req, res) => {
+    try {
+        const {idComment} = req.params
+        console.log(idComment)
+        const connection = await getConnection()
+        const query = await connection.query("DELETE FROM comments WHERE idComment = ?", idComment)
+
+        res.json(query)
+    } catch(error) {
+        res.status(500).send(error.message)
+    }
+}
+
 export const methods = {
     getCommentById,
-    addComment
+    addComment,
+    deleteComment
 };

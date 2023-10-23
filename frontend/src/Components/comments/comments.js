@@ -9,9 +9,11 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Pagination from '@mui/material/Pagination';
 
+import DeleteComment from './modals/deletecomment'
+
 import commentService from './../../services/comment.service';
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard({user}) {
     const { id } = useParams();
     const [comment, setComment] = useState([]);
     const [page, setPage] = useState(1);
@@ -40,7 +42,7 @@ export default function RecipeReviewCard() {
 
     return (
         <div>
-            {displayedComments.map(({ username, avatar_url, created_at, description }, index) => (
+            {displayedComments.map(({ idComment, idUser, username, avatar_url, created_at, description }, index) => (
                 <Card key={index} sx={{ marginBottom: 5 }}>
                     <CardHeader
                         avatar={
@@ -48,6 +50,9 @@ export default function RecipeReviewCard() {
                         }
                         title=<strong>{username}</strong>
                         subheader={created_at}
+                        action={
+                            (user.idUser === idUser || user.isAdmin === 1) && <DeleteComment idComment={idComment} />
+                        }
                     />
                     <CardContent>
                         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left' }}>
