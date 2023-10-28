@@ -37,8 +37,21 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getUsersCountLastWeek = async (req, res) => {
+    try {
+        const connection = await getConnection()
+
+        const user = await connection.query("SELECT COUNT(idUser) as userCount FROM users WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")
+
+        res.json(user)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
 export const methods = {
     getUsers,
     getUserById,
-    deleteUser
+    deleteUser,
+    getUsersCountLastWeek
 }

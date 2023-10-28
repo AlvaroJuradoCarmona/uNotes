@@ -5,7 +5,7 @@ const getFiles = async (req,res) => {
     try{
         const connection = await getConnection();
         
-        const query = await connection.query("SELECT * FROM documents");
+        const query = await connection.query("SELECT * FROM documents ORDER BY title ASC");
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
@@ -41,8 +41,7 @@ const addFile = async (req, res) => {
 
         res.json("Success!!");
     } catch (error) {
-        res.status(500)
-        res.send(error.message);
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
     }
 }
 
@@ -66,8 +65,7 @@ const addCode = async (req, res) => {
         
         res.json("Success!!");
     } catch (error) {
-        res.status(500)
-        res.send(error.message);
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
     }
 }
 
@@ -78,7 +76,7 @@ const getFilesBySubjectId = async (req,res) => {
 
         const query = await connection.query(`SELECT d.idDocument, d.title, DATE_FORMAT(d.created_at, '%d-%m-%Y') AS created_at, d.idCategory, u.username, u.avatar_url 
                                                 FROM documents d LEFT JOIN users u ON d.idUser=u.idUser 
-                                                WHERE d.idSubject = ?;`, idSubject);
+                                                WHERE d.idSubject = ? ORDER BY d.created_at DESC;`, idSubject);
         
         res.json(query);
     }catch(error){
@@ -107,13 +105,12 @@ const addViewLog = async (req,res) => {
         const connection = await getConnection();     
         const { idUser, idDocument } = req.body;
 
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const formattedYesterday = yesterday.toISOString().split('T')[0];
+        const today = new Date();
+        const formattedToday = today.toISOString().split('T')[0] + ' 00:00:00';
 
         const [ existingView ] = await connection.query(`SELECT * FROM views_log 
-                                                    WHERE idUser = ? AND idDocument = ? AND view_at >= ?`, 
-                                                    [idUser, idDocument, formattedYesterday]);
+                                                    WHERE idUser = ? AND idDocument = ? AND view_at >= ? AND view_at <= NOW()`, 
+                                                    [idUser, idDocument, formattedToday]);
         
         if (existingView.length < 1){
             const view = { idUser, idDocument };
@@ -123,8 +120,174 @@ const addViewLog = async (req,res) => {
 
         res.json("Success!!");
     } catch (error) {
-        res.status(500)
-        res.send(error.message);
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const getViewsByWeekDayByUser = async (req,res) => {
+    try{
+        const connection = await getConnection();
+        const {idUser} = req.params;
+
+        const today = new Date();
+        const lastMonday = new Date(today);
+        lastMonday.setDate(today.getDate() - (today.getDay() + 6) % 7);
+        const lastMondayFormatted = lastMonday.toISOString().split('T')[0];
+
+        const query = await connection.query(
+        `SELECT 
+            daysOfWeek.weekday,
+            COALESCE(COUNT(view_at),0) as total_views
+        FROM 
+            (SELECT 'Monday' as weekday
+            UNION SELECT 'Tuesday'
+            UNION SELECT 'Wednesday'
+            UNION SELECT 'Thursday'
+            UNION SELECT 'Friday'
+            UNION SELECT 'Saturday'
+            UNION SELECT 'Sunday') as daysOfWeek
+        LEFT JOIN 
+            views_log
+        ON 
+            daysOfWeek.weekday = DAYNAME(view_at) AND view_at >= '${lastMondayFormatted}' AND idUser = ?
+        GROUP BY 
+            daysOfWeek.weekday
+        ORDER BY 
+            FIELD(daysOfWeek.weekday, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');`, idUser);
+        
+        res.json(query);
+    }catch(error){
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const getViewsByWeekDay = async (req,res) => {
+    try{
+        const connection = await getConnection();
+
+        const today = new Date();
+        const lastMonday = new Date(today);
+        lastMonday.setDate(today.getDate() - (today.getDay() + 6) % 7);
+        const lastMondayFormatted = lastMonday.toISOString().split('T')[0];
+
+        const query = await connection.query(
+        `SELECT 
+            daysOfWeek.weekday,
+            COALESCE(COUNT(view_at),0) as total_views
+        FROM 
+            (SELECT 'Monday' as weekday
+            UNION SELECT 'Tuesday'
+            UNION SELECT 'Wednesday'
+            UNION SELECT 'Thursday'
+            UNION SELECT 'Friday'
+            UNION SELECT 'Saturday'
+            UNION SELECT 'Sunday') as daysOfWeek
+        LEFT JOIN 
+            views_log
+        ON 
+            daysOfWeek.weekday = DAYNAME(view_at) AND view_at >= '${lastMondayFormatted}'
+        GROUP BY 
+            daysOfWeek.weekday
+        ORDER BY 
+            FIELD(daysOfWeek.weekday, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');`);
+        
+        res.json(query);
+    }catch(error){
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const deleteFile = async (req, res) => {
+    try {
+        const {idDocument} = req.params
+        const connection = await getConnection()
+        const query = await connection.query("DELETE FROM documents WHERE idDocument = ?", idDocument)
+
+        res.json(query)
+    } catch(error) {
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const addReport = async (req,res) => {
+    try {
+        const connection = await getConnection();     
+        const { idUser, id, description } = req.body;
+        
+        if(description === '')
+            return res.status(500).json({message: "Fill all fields"})
+
+        const report = {idUser, idDocument: id, description}
+        await connection.query(`INSERT INTO reports_log SET ?`, report);
+
+        res.json("Success!!");
+    } catch (error) {
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const getReports = async (req,res) => {   
+
+    try{
+        const connection = await getConnection();
+     
+        const query = await connection.query(`SELECT r.idUser, d.idDocument, d.title, d.idCategory, r.description
+                                                FROM reports_log r LEFT JOIN documents d ON r.idDocument = d.idDocument
+                                                ORDER BY r.created_at DESC;`);
+
+        res.json(query);
+    }catch(error){
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const getFileCountLastWeek = async (req, res) => {
+    try {
+        const connection = await getConnection()
+
+        const fileCount = await connection.query(`SELECT COUNT(idDocument) as fileCount FROM documents WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)`)
+
+        res.json(fileCount)
+    } catch (error) {
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const getReportCountLastWeek = async (req, res) => {
+    try {
+        const connection = await getConnection()
+
+        const reportCount = await connection.query(`SELECT COUNT(idDocument) as reportCount FROM reports_log WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)`)
+
+        res.json(reportCount)
+    } catch (error) {
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
+const getFileCountByCategory = async (req, res) => {
+    try {
+        const connection = await getConnection()
+
+        const categoryCount = await connection.query(`SELECT 
+                                                    CASE 
+                                                        WHEN d.idCategory <= 6 THEN c.name
+                                                        ELSE 'Código'
+                                                    END as name,
+                                                    COUNT(d.idCategory) as total_files
+                                                FROM 
+                                                    categories c
+                                                LEFT JOIN 
+                                                    documents d ON c.idCategory = d.idCategory
+                                                GROUP BY 
+                                                    CASE 
+                                                        WHEN d.idCategory <= 6 THEN c.name
+                                                        ELSE 'Código'
+                                                    END;`)
+
+        res.json(categoryCount)
+    } catch (error) {
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
     }
 }
 
@@ -135,5 +298,13 @@ export const methods = {
     addCode,
     getFilesBySubjectId,
     getFilesByUserId,
-    addViewLog
+    addViewLog,
+    getViewsByWeekDayByUser,
+    getViewsByWeekDay,
+    deleteFile,
+    addReport,
+    getReports,
+    getFileCountLastWeek,
+    getReportCountLastWeek,
+    getFileCountByCategory
 };
