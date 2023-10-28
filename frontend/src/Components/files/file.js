@@ -20,6 +20,7 @@ import python from 'react-syntax-highlighter/dist/esm/languages/hljs/python';
 
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
+import ReportModal from './modals/reportFile'
 import CommentModal from './modals/createComment'
 import Comment from './../comments/comments'
 
@@ -88,18 +89,20 @@ export default function BasicTable({ user }) {
     <>
       {url ? (
         <>
+          <ReportModal user={user} />
           <CommentModal user={user} />
           <div className='codecontainer'>
             <div className='codeblock'>
               <embed src={url} width="100%" height="800px" />
             </div>
             <div className='commentsection'>
-              <Comment />
+              <Comment user={user} />
             </div>
           </div>
         </>
     ) : (
       <>
+        <ReportModal user={user} />
         <CommentModal user={user} />
         <div className='codecontainer'>
           <Code className="codeblock">
@@ -136,7 +139,7 @@ export default function BasicTable({ user }) {
             </SyntaxHighlighter>
           </Code>
           <div className='commentsection'>
-            <Comment />
+            <Comment user={user} />
           </div>
         </div>
       </>

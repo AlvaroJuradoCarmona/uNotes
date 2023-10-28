@@ -17,7 +17,7 @@ router.get('/subject/:idSubject', fileCtrl.getFilesBySubjectId)
 router.get('/profile/:idUser', fileCtrl.getFilesByUserId)
 router.post('/view', fileCtrl.addViewLog)
 router.get('/weekviewsbyuser/:idUser', fileCtrl.getViewsByWeekDayByUser)
-
+router.delete('/:idReport', fileCtrl.deleteReport)
 router.delete('/:idDocument', fileCtrl.deleteFile)
 router.post('/report', fileCtrl.addReport)
 

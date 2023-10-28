@@ -226,12 +226,24 @@ const addReport = async (req,res) => {
     }
 }
 
+const deleteReport = async (req, res) => {
+    try {
+        const {idReport} = req.params
+        const connection = await getConnection()
+        const query = await connection.query("DELETE FROM reports_log WHERE idReport = ?", idReport)
+
+        res.json(query)
+    } catch(error) {
+        res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});
+    }
+}
+
 const getReports = async (req,res) => {   
 
     try{
         const connection = await getConnection();
      
-        const query = await connection.query(`SELECT r.idUser, d.idDocument, d.title, d.idCategory, r.description
+        const query = await connection.query(`SELECT r.idReport, r.idUser, d.idDocument, d.title, d.idCategory, r.description
                                                 FROM reports_log r LEFT JOIN documents d ON r.idDocument = d.idDocument
                                                 ORDER BY r.created_at DESC;`);
 
@@ -303,6 +315,7 @@ export const methods = {
     getViewsByWeekDay,
     deleteFile,
     addReport,
+    deleteReport,
     getReports,
     getFileCountLastWeek,
     getReportCountLastWeek,
