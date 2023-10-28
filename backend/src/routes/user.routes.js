@@ -7,5 +7,6 @@ const router = Router();
 router.get("/users", userCtrl.getUsers);
 router.get("/getUserById/:idUser", userCtrl.getUserById);
 router.delete('/:idUser', userCtrl.deleteUser)
+router.get("/getUsersCountLastWeek", userCtrl.getUsersCountLastWeek);
 
 export default router;

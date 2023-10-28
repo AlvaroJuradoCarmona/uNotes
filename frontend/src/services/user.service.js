@@ -17,10 +17,16 @@ const deleteUser = async (idUser) => {
     return request.then(response => response.data)
 }
 
+const getUsersCountLastWeek = async () => {
+    const request = axios.get(`${baseUrl}/getUsersCountLastWeek`);
+    return request.then(response => response.data);
+}
+
 const methods = {
     getUsers,
     getUserById,
-    deleteUser
+    deleteUser,
+    getUsersCountLastWeek
 }
 
 export default methods;

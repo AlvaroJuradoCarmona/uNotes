@@ -32,9 +32,49 @@ const getFilesByUserId = async (idUser) => {
     return request.then(response => response.data);
 }
 
-const addViewLog = (fileData) => {
+const addViewLog = async (fileData) => {
     const request = axios.post(`${baseUrl}/view`, fileData);
     return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const getViewsByWeekDayByUser = async (idUser) => {
+    const request = axios.get(`${baseUrl}/weekviewsbyuser/${idUser}`);
+    return request.then(response => response.data);
+}
+
+const getViewsByWeekDay = async () => {
+    const request = axios.get(`${baseUrl}/weekviews`);
+    return request.then(response => response.data);
+}
+
+const deleteFile = async (idDocument) => {
+    const request = axios.delete(`${baseUrl}/${idDocument}`)
+    return request.then(response => response.data)
+}
+
+const addReport = async (fileData) => {
+    const request = axios.post(`${baseUrl}/report`, fileData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const getReports = async () => {
+    const request = axios.get(`${baseUrl}/getReports`);
+    return request.then(response => response.data);
+}
+
+const getFileCountLastWeek = async () => {
+    const request = axios.get(`${baseUrl}/getFileCountLastWeek`);
+    return request.then(response => response.data);
+}
+
+const getReportCountLastWeek = async () => {
+    const request = axios.get(`${baseUrl}/getReportCountLastWeek`);
+    return request.then(response => response.data);
+}
+
+const getFileCountByCategory = async () => {
+    const request = axios.get(`${baseUrl}/getFileCountByCategory`);
+    return request.then(response => response.data);
 }
 
 const   methods = {
@@ -44,7 +84,15 @@ const   methods = {
     addCode,
     getFilesBySubjectId,
     getFilesByUserId,
-    addViewLog
+    addViewLog,
+    getViewsByWeekDayByUser,
+    getViewsByWeekDay,
+    deleteFile,
+    addReport,
+    getReports,
+    getFileCountLastWeek,
+    getReportCountLastWeek,
+    getFileCountByCategory
 }
 
 export default methods;
