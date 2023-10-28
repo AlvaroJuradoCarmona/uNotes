@@ -23,11 +23,13 @@ import UploadInfoModal from "./modals/uploadInfoModal"
 import UploadCodeModal from "./modals/uploadCodeModal"
 
 import fileService from "../../services/file.service"
+import subjectService from "../../services/subjects.service"
 
 export default function BasicTable({ user }) {
   const [files, setFiles] = useState([])
   const [selectedCategory, setSelectedCategory] = React.useState("");
   const [categoryFiltered, setCategoryFiltered] = useState([])
+  const [subjectName, setSubjectName] = useState("")
 
   const [page, setPage] = useState(1);
   const filesPerPage = 20;
@@ -52,6 +54,8 @@ export default function BasicTable({ user }) {
       const fileData = await fileService.getFilesBySubjectId(id);
       setFiles(fileData);
       setCategoryFiltered(fileData[0])
+      const subjectName = await subjectService.getSubjectById(id)
+      setSubjectName(subjectName[0][0].name)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -83,31 +87,36 @@ export default function BasicTable({ user }) {
 
   return (
     <>
-      <UploadInfoModal user={user} />
-      <UploadCodeModal user={user} />
-
-      <div className="selectorBox">
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedCategory || "Todas"}
-            label="Categoria"
-            onChange={handleCategory}
-            defaultValue = ""
-          >
-            <MenuItem value="Todas" onClick={() => categoryFilter("")}>Todas</MenuItem>
-            <MenuItem value="Exámenes" onClick={() => categoryFilter(1)}>Exámenes</MenuItem>
-            <MenuItem value="Apuntes" onClick={() => categoryFilter(2)}>Apuntes</MenuItem>
-            <MenuItem value="Ejercicios" onClick={() => categoryFilter(3)}>Ejercicios</MenuItem>
-            <MenuItem value="Prácticas" onClick={() => categoryFilter(4)}>Prácticas</MenuItem>
-            <MenuItem value="Código" onClick={() => categoryFilter(6)}>Código</MenuItem>
-            <MenuItem value="Otros" onClick={() => categoryFilter(5)}>Otros</MenuItem>
-          </Select>
-        </FormControl>
+      <div className='filelistHeader'>
+        <h1>{subjectName}</h1>
       </div>
-      
+      <div className="filelistHeader2">
+        <div className="selectorBox">
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedCategory || "Todas"}
+              label="Categoria"
+              onChange={handleCategory}
+              defaultValue = ""
+            >
+              <MenuItem value="Todas" onClick={() => categoryFilter("")}>Todas</MenuItem>
+              <MenuItem value="Exámenes" onClick={() => categoryFilter(1)}>Exámenes</MenuItem>
+              <MenuItem value="Apuntes" onClick={() => categoryFilter(2)}>Apuntes</MenuItem>
+              <MenuItem value="Ejercicios" onClick={() => categoryFilter(3)}>Ejercicios</MenuItem>
+              <MenuItem value="Prácticas" onClick={() => categoryFilter(4)}>Prácticas</MenuItem>
+              <MenuItem value="Código" onClick={() => categoryFilter(6)}>Código</MenuItem>
+              <MenuItem value="Otros" onClick={() => categoryFilter(5)}>Otros</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div className='filelistUploadButtons'>
+          <UploadInfoModal user={user} />
+          <UploadCodeModal user={user} />
+        </div>
+      </div>
       <div className="fit_table">
         <TableContainer component={Paper}>
           <Table aria-label="simple table">

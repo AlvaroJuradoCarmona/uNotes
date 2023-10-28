@@ -57,6 +57,11 @@ const addReport = async (fileData) => {
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const deleteReport = async (idReport) => {
+    const request = axios.delete(`${baseUrl}/${idReport}`)
+    return request.then(response => response.data)
+}
+
 const getReports = async () => {
     const request = axios.get(`${baseUrl}/getReports`);
     return request.then(response => response.data);
@@ -89,6 +94,7 @@ const   methods = {
     getViewsByWeekDay,
     deleteFile,
     addReport,
+    deleteReport,
     getReports,
     getFileCountLastWeek,
     getReportCountLastWeek,

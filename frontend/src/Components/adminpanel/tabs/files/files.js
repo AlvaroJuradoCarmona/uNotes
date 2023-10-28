@@ -17,13 +17,14 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import FolderIcon from '@mui/icons-material/Folder';
-import { purple } from '@mui/material/colors';
 import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
 
-import DeleteSubjectModal from './modals/deletesubject'
+import pdfImage from './../../../../assets/pdf.png';
+import codeImage from './../../../../assets/code.png';
 
-import subjectService from '../../../../services/subjects.service'
+import DeleteFileModal from './modals/deletefile'
+
+import fileService from '../../../../services/file.service'
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -89,12 +90,12 @@ TablePaginationActions.propTypes = {
 export default function CustomPaginationActionsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [subjects, setSubjects] = React.useState([]);
+  const [files, setFiles] = React.useState([]);
 
   async function fetchData() {
     try {
-      const subjectsData = await subjectService.getSubjects();
-      setSubjects(subjectsData[0]);
+      const filesData = await fileService.getFiles();
+      setFiles(filesData[0]);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -106,7 +107,7 @@ export default function CustomPaginationActionsTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - files.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -119,8 +120,8 @@ export default function CustomPaginationActionsTable() {
 
   const navigate = useNavigate();
 
-  const handleSubject = (idSubject) => {
-    navigate(`/subject/${idSubject}`);
+  const handleFile = (idDocument) => {
+    navigate(`/file/${idDocument}`);
   };
 
   return (
@@ -128,23 +129,27 @@ export default function CustomPaginationActionsTable() {
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableBody>
           {(rowsPerPage > 0
-            ? subjects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : subjects
-          ).map((subjects) => (
-            <TableRow key={subjects.idSubject}>
+            ? files.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : files
+          ).map((files) => (
+            <TableRow key={files.idDocument}>
               <TableCell style={{ width: 40 }} align="right">
-                <FolderIcon sx={{ color: purple[500], fontSize: 30}}/>
+                {files.idCategory >= 6 ? (
+                    <img src={codeImage} alt="Código" />
+                  ) : (
+                    <img src={pdfImage} alt="PDF" />
+                  )}
               </TableCell>
               <TableCell>
-                {subjects.name}
+                {files.title}
               </TableCell>
               <TableCell style={{ width: 30 }}>
-                <IconButton onClick={() => handleSubject(subjects.idSubject)}>
+                <IconButton onClick={() => handleFile(files.idDocument)}>
                   <ArrowCircleUpRoundedIcon />
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 30 }}>
-                <DeleteSubjectModal idSubject={subjects.idSubject}/>
+                <DeleteFileModal idDocument={files.idDocument}/>
               </TableCell>
             </TableRow>
           ))}
@@ -159,7 +164,7 @@ export default function CustomPaginationActionsTable() {
             <TablePagination
               rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={subjects.length}
+              count={files.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
