@@ -27,12 +27,42 @@ const recoverPassword = (userData) => {
     return request.then(response => response.data).catch(error => error.response.data);
 }
 
+const updateAvatar = (userData) => {
+    const request = axios.put(`${baseUrl}/updateAvatar`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const updateUsername = (userData) => {
+    const request = axios.put(`${baseUrl}/updateUsername`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const updateEmail = (userData) => {
+    const request = axios.put(`${baseUrl}/updateEmail`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const updatePassword = (userData) => {
+    const request = axios.put(`${baseUrl}/updatePassword`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
+const updateStudies = (userData) => {
+    const request = axios.put(`${baseUrl}/updateStudies`, userData);
+    return request.then(response => response.data).catch(error => error.response.data);
+}
+
 const methods = {
     signUp,
     confirmAccount,
     getAccount,
     signIn,
-    recoverPassword
+    recoverPassword,
+    updateAvatar,
+    updateUsername,
+    updateEmail,
+    updatePassword,
+    updateStudies
 }
 
 export default methods;

@@ -43,11 +43,12 @@
 
 .profileBody {
     display: flex;
+    justify-content: space-between;
 }
 
 .profileFiles {
     width: 40%;
-    margin-left: 10%;
+    margin-left: 5%;
     border: 1px solid #ccc;
 }
 
@@ -69,8 +70,21 @@
     justify-content: left;
 }
 
+.profileGraphAndAchievements {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-right: 5%;
+}
+
+.profileChart {
+    margin-left: 5%;
+    border: 1px solid #ccc;
+    padding: 25px;
+}
+
 .profileAchievements {
-    width: 40%;
     margin-left: 5%;
     border: 1px solid #ccc;
 }
@@ -95,4 +109,10 @@
 
 .achievementprofCard .MuiCardHeader-title {
     margin-bottom: 10px; 
+}
+
+.editAvatarButton {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
 }

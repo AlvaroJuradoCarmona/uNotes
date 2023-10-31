@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -9,6 +9,8 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
+import Chart from "chart.js/auto"
+import EditProfile from './modals/editprofile'
 
 import pdfImage from './../../assets/pdf.png';
 import codeImage from './../../assets/code.png';
@@ -19,11 +21,13 @@ import achievementService from './../../services/achievement.service'
 
 import "./profile.css"
 
-export default function RecipeReviewCard() {
+export default function Profile() {
    const [userData, setUserData] = useState([]);
    const [files, setFiles] = useState([]);
    const [achievement, setAchievement] = useState([]);
+   const [views, setViews] = useState([]);
    const { id } = useParams();
+   const canvasRef = useRef(null);
 
    async function fetchData(id) {
         try {
@@ -33,46 +37,82 @@ export default function RecipeReviewCard() {
             setFiles(fileInfo[0])
             const achievementData = await achievementService.getAchievementsByUser(id);
             setAchievement(achievementData[0])
+            const viewInfo = await fileService.getViewsByWeekDayByUser(id);
+            setViews(viewInfo[0].map(item => item.total_views))
         } catch (error) {
           console.error('Error fetching data:', error);
         }
-      }
+    }
     
-      useEffect(() => {
-        fetchData(id);
-      }, [id]);
+    useEffect(() => {
+    fetchData(id);
+    }, [id]);
 
-      function getLevel(experience) {
-        const a = 1;
-        const b = 1;
-        
-        const level = Math.floor(a * Math.log(experience/50) + b);
-        const percentage = Math.floor((a * Math.log(experience/50) + b) * 100) % 100;
+    function getLevel(experience) {
+    const a = 1;
+    const b = 1;
+    
+    const level = Math.floor(a * Math.log(experience/50) + b);
+    const percentage = Math.floor((a * Math.log(experience/50) + b) * 100) % 100;
 
-        return {
-            level: level,
-            percentage: percentage
-        };
+    return {
+        level: level,
+        percentage: percentage
+    };
+    }
+    
+    const expInfo = getLevel(userData.experience);
+
+    const navigate = useNavigate();
+
+    const handleRowClick = (id) => {
+    navigate(`/file/${id}`);
+    };
+
+    const handleAllFiles = (id) => {
+    navigate(`/profile/file/${id}`);
+    };
+
+    const handleAllAchievements = (id) => {
+    navigate(`/achievement/${id}`);
+    };
+
+    useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+        datasets: [{
+          label: '# de Visitas',
+          data: views,
+          borderColor: 'rgb(75, 192, 192)'
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+                callback: function(value) {if (value % 1 === 0) {return value;}}
+            }
+          }
+        }
       }
-      
-      const expInfo = getLevel(userData.experience);
-
-      const navigate = useNavigate();
-
-      const handleRowClick = (id) => {
-        navigate(`/file/${id}`);
-      };
-
-      const handleAllFiles = (id) => {
-        navigate(`/profile/file/${id}`);
-      };
-
-      const handleAllAchievements = (id) => {
-        navigate(`/achievement/${id}`);
-      };
+    });
+    }, [views])
 
     return (
     <>
+        <EditProfile user={userData}/>
         <div className='profileHeader'>
             <div className='profileAvatar'>
                 <Avatar sx={{ bgcolor: red[500], width: 150, height: 150 }} aria-label="recipe" src={userData.avatar_url}></Avatar>
@@ -113,7 +153,7 @@ export default function RecipeReviewCard() {
                             key={id}
                             className="ranking-row"
                             onClick={() => handleRowClick(idDocument)}
-                            style={{ lineHeight: '1' }}
+                            style={{ lineHeight: '1', borderBottom:"1pt solid black" }}
                         >
                             <td className='profileFileIcon' style={{ textAlign: 'left', fontSize: 21, marginLeft: 15 }}>
                                 {idCategory >= 6 ? (
@@ -130,27 +170,32 @@ export default function RecipeReviewCard() {
                     </tbody>
                 </table>
             </div>
-            <div className='profileAchievements'>
-                <div className='profileFilesHeader'>
-                    <h2>Logros</h2>
-                    <Button variant="outlined" style={{ color: 'black', borderColor: 'black' }} onClick={() => handleAllAchievements(id)}>VER TODOS</Button>
+            <div className='profileGraphAndAchievements'>
+                <div className='profileChart'>
+                    <canvas ref={canvasRef} />
                 </div>
-                {achievement.slice(0, 4).map(({ title, description, url_img, idUser }, id) => (
-                <div key={id} className={idUser === null ? 'achievementprofCardWithFilter' : 'achievementprofCard'}>
-                    <Card key={id} sx={{ marginBottom: 5}}>
-                        <CardHeader
-                        avatar={
-                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={url_img}>
-                            
-                            </Avatar>
-                        }
-                        title={
-                        <strong style={{ fontSize: '1.2rem' }}>{title}</strong>}
-                        subheader={description}
-                        />
-                    </Card>
+                <div className='profileAchievements'>
+                    <div className='profileFilesHeader'>
+                        <h2>Logros</h2>
+                        <Button variant="outlined" style={{ color: 'black', borderColor: 'black' }} onClick={() => handleAllAchievements(id)}>VER TODOS</Button>
+                    </div>
+                    {achievement.slice(0, 4).map(({ title, description, url_img, idUser }, id) => (
+                    <div key={id} className={idUser === null ? 'achievementprofCardWithFilter' : 'achievementprofCard'}>
+                        <Card key={id} sx={{ marginBottom: 5}}>
+                            <CardHeader
+                            avatar={
+                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={url_img}>
+                                
+                                </Avatar>
+                            }
+                            title={
+                            <strong style={{ fontSize: '1.2rem' }}>{title}</strong>}
+                            subheader={description}
+                            />
+                        </Card>
+                    </div>
+                    ))}
                 </div>
-                ))}
             </div>
         </div>
     </>
