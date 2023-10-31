@@ -128,10 +128,119 @@ export const confirmAccount = async (req, res) => {
     }
   }
 
+  export const updateAvatar = async (req, res) => {
+    try {
+      const {idUser, avatar_url} = req.body
+
+      if(avatar_url === '')
+            return res.status(500).json({message: "Fill all fields"})
+      
+      const connection = await getConnection()
+      
+      await connection.query("UPDATE users SET avatar_url=? WHERE idUser=?", [avatar_url, idUser])
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error.message)
+    }
+  }
+
+  export const updateUsername = async (req, res) => {
+    try {
+      const {idUser, username} = req.body
+
+      if(username === '')
+            return res.status(500).json({message: "Fill all fields"})
+      
+      const connection = await getConnection()
+      
+      const existUsername = await connection.query("SELECT username FROM users WHERE username=?", username)
+      if (existUsername.length === 0)
+          return res.status(500).json({message: "Username not found"})
+      
+      await connection.query("UPDATE users SET username=? WHERE idUser=?", [username, idUser])
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error.message)
+    }
+  }
+
+  export const updateEmail = async (req, res) => {
+    try {
+      const {idUser, email} = req.body
+
+      if(email === '')
+      return res.status(500).json({message: "Fill all fields"})
+      
+      const connection = await getConnection()
+      
+      const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]+$')
+      if (!validEmail.test(email))
+            return res.status(500).json({message: "Invalid email"})
+
+      const existEmail = await connection.query("SELECT email FROM users WHERE email=?", email)
+      if (existEmail.length === 0)
+          return res.status(500).json({message: "Email not found"})
+      
+      await connection.query("UPDATE users SET email=? WHERE idUser=?", [email, idUser])
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error.message)
+    }
+  }
+
+  export const updatePassword = async (req, res) => {
+    try {
+      const {idUser, password, passwordConfirmation} = req.body
+
+      if(password === '' || passwordConfirmation === '')
+      return res.status(500).json({message: "Fill all fields"})
+      
+      const connection = await getConnection()
+
+      if (password.length < 8 || password.length > 100)
+        return res.status(500).json({message: "Invalid password: Password must be between 8 and 100 characters"})
+      else if (password !== passwordConfirmation)
+        return res.status(500).json({message: "Invalid password: Passwords don't match"})
+
+      const passwordEncrypt = await authlib.encryptPassword(password)
+      
+      await connection.query("UPDATE users SET password=? WHERE idUser=?", [passwordEncrypt, idUser])
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error.message)
+    }
+  }
+
+  export const updateStudies = async (req, res) => {
+    try {
+      const {idUser, idUniversity, idFaculty} = req.body
+
+      if(idUniversity === '' || idFaculty === '')
+      return res.status(500).json({message: "Fill all fields"})
+      
+      const connection = await getConnection()
+      
+      await connection.query("UPDATE users SET idUniversity=?, idFaculty=? WHERE idUser=?", [idUniversity, idFaculty, idUser])
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error.message)
+    }
+  }
+
 export const methods = {
     signUp,
     confirmAccount,
     getAccount,
     signIn,
-    recoverPassword
+    recoverPassword,
+    updateAvatar,
+    updateUsername,
+    updateEmail,
+    updatePassword,
+    updateStudies
 }
