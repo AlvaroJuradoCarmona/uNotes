@@ -74,7 +74,7 @@ const getFilesBySubjectId = async (req,res) => {
         const connection = await getConnection();
         const {idSubject} = req.params;
 
-        const query = await connection.query(`SELECT d.idDocument, d.title, DATE_FORMAT(d.created_at, '%d-%m-%Y') AS created_at, d.idCategory, u.username, u.avatar_url 
+        const query = await connection.query(`SELECT d.idDocument, d.title, DATE_FORMAT(d.created_at, '%d-%m-%Y') AS created_at, d.idCategory, u.username, u.avatar_url, d.views 
                                                 FROM documents d LEFT JOIN users u ON d.idUser=u.idUser 
                                                 WHERE d.idSubject = ? ORDER BY d.created_at DESC;`, idSubject);
         
@@ -89,7 +89,7 @@ const getFilesByUserId = async (req,res) => {
         const connection = await getConnection();
         const {idUser} = req.params;
 
-        const query = await connection.query(`SELECT idDocument, title, idCategory 
+        const query = await connection.query(`SELECT idDocument, title, DATE_FORMAT(created_at, '%d-%m-%Y') AS created_at, idCategory, views
                                                 FROM documents
                                                 WHERE idUser = ?
                                                 ORDER BY created_at DESC;`, idUser);

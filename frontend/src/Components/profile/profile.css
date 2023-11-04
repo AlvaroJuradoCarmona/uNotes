@@ -107,10 +107,6 @@
     filter: grayscale(100%);
 }
 
-.achievementprofCard .MuiCardHeader-title {
-    margin-bottom: 10px; 
-}
-
 .editAvatarButton {
     display: flex;
     justify-content: center;

@@ -13,18 +13,22 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Pagination from '@mui/material/Pagination';
-import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import DeleteFileModal from './../adminpanel/tabs/files/modals/deletefile'
+import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
+import IconButton from '@mui/material/IconButton';
 
 import pdfImage from './../../assets/pdf.png';
 import codeImage from './../../assets/code.png';
 
 import fileService from "../../services/file.service"
+import userService from "../../services/user.service"
 
 export default function BasicTable({ user }) {
   const [files, setFiles] = useState([])
   const [selectedCategory, setSelectedCategory] = React.useState("");
   const [categoryFiltered, setCategoryFiltered] = useState([])
+  const [userInfo, setUserInfo] = useState([])
 
   const [page, setPage] = useState(1);
   const filesPerPage = 20;
@@ -49,6 +53,8 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
       const fileData = await fileService.getFilesByUserId(id);
       setFiles(fileData);
       setCategoryFiltered(fileData[0])
+      const userInfo = await userService.getUserById(id)
+      setUserInfo(userInfo[0][0])
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -67,32 +73,36 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
 
   const navigate = useNavigate();
 
-  const handleRowClick = (id) => {
+  const handleFile = (id) => {
     navigate(`/file/${id}`);
   };
 
   return (
     <>
-      <div className="selectorBox">
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedCategory || "Todas"}
-            label="Categoria"
-            onChange={handleCategory}
-            defaultValue = ""
-          >
-            <MenuItem value="Todas" onClick={() => categoryFilter("")}>Todas</MenuItem>
-            <MenuItem value="Exámenes" onClick={() => categoryFilter(1)}>Exámenes</MenuItem>
-            <MenuItem value="Apuntes" onClick={() => categoryFilter(2)}>Apuntes</MenuItem>
-            <MenuItem value="Ejercicios" onClick={() => categoryFilter(3)}>Ejercicios</MenuItem>
-            <MenuItem value="Prácticas" onClick={() => categoryFilter(4)}>Prácticas</MenuItem>
-            <MenuItem value="Código" onClick={() => categoryFilter(6)}>Código</MenuItem>
-            <MenuItem value="Otros" onClick={() => categoryFilter(5)}>Otros</MenuItem>
-          </Select>
-        </FormControl>
+      <div className='filelistHeader2'>
+        <h1>Publicaciones de {userInfo.username}</h1>
+      
+        <div className="selectorBox">
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedCategory || "Todas"}
+              label="Categoria"
+              onChange={handleCategory}
+              defaultValue = ""
+            >
+              <MenuItem value="Todas" onClick={() => categoryFilter("")}>Todas</MenuItem>
+              <MenuItem value="Exámenes" onClick={() => categoryFilter(1)}>Exámenes</MenuItem>
+              <MenuItem value="Apuntes" onClick={() => categoryFilter(2)}>Apuntes</MenuItem>
+              <MenuItem value="Ejercicios" onClick={() => categoryFilter(3)}>Ejercicios</MenuItem>
+              <MenuItem value="Prácticas" onClick={() => categoryFilter(4)}>Prácticas</MenuItem>
+              <MenuItem value="Código" onClick={() => categoryFilter(6)}>Código</MenuItem>
+              <MenuItem value="Otros" onClick={() => categoryFilter(5)}>Otros</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </div>
       
       <div className="fit_table">
@@ -104,12 +114,11 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedFiles.map(({ idDocument, title, created_at, username, avatar_url, idCategory }, id) => (
+              {displayedFiles.map(({ idDocument, title, created_at, idCategory, views }, id) => (
                 <TableRow
                   key={id}
                   className="subject-row"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  onClick={() => handleRowClick(idDocument)}
                 >
                   <TableCell sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right' }}>        
                   {idCategory >= 6 ? (
@@ -120,10 +129,14 @@ const displayedFiles = categoryFiltered.slice(startIndex, endIndex);
                   </TableCell>
                   <TableCell sx={{ fontSize:"16px" }}><strong>{title}</strong></TableCell>
                   <TableCell>{created_at}</TableCell>
-                  <TableCell sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right' }}>
-                    <Avatar sx={{ bgcolor: red[500], width: 35, height: 35 }} aria-label="recipe" src={avatar_url}></Avatar>
+                  <TableCell sx={{ display: 'flex', justifyContent: 'right' }}><RemoveRedEyeOutlinedIcon sx={{ width: 25, height: 30 }}/></TableCell>
+                  <TableCell>{views}</TableCell>
+                  <TableCell style={{ width: 50 }}>
+                    <IconButton onClick={() => handleFile(idDocument)}>
+                      <ArrowCircleUpRoundedIcon />
+                    </IconButton>
                   </TableCell>
-                  <TableCell>{username}</TableCell>
+                  <TableCell style={{ width: 100 }}><DeleteFileModal idDocument={idDocument} /></TableCell>
                 </TableRow>
               ))}
             </TableBody>
