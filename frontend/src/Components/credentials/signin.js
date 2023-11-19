@@ -22,9 +22,6 @@ const SignIn = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const [checkEmail, setCheckEmail] = React.useState(false)
-  const [checkPassword, setCheckPassword] = React.useState(false)
-
   let nav = useNavigate()
 
   React.useEffect(() => {
@@ -35,18 +32,10 @@ const SignIn = () => {
   }, [nav])
 
   const handleEmail = (event) => {
-    if (event.target.value.length > 0)
-      setCheckEmail(false)
-    else
-      setCheckEmail(true)
     setEmail(event.target.value)
   };
 
   const handlePassword = (event) => {
-    if (event.target.value.length > 7)
-      setCheckPassword(false)
-    else
-      setCheckPassword(true)
     setPassword(event.target.value)
   };
 
@@ -77,44 +66,46 @@ const SignIn = () => {
   <div className="signContainer">
     <div className="signBox">
       <Link href="/">
-          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 30 }} alt="Logo" />
       </Link>
-      <h1>Iniciar sesión</h1>
+      <h1>Inicia sesión</h1>
       <div className="signFields">
         <div className="signTextField">
-          <TextField fullWidth error={checkEmail} label="Correo electrónico" onChange={handleEmail}/>
-          {checkEmail ? <p className='errorAlert'>No debe estar vacío</p>: null}
+          <TextField fullWidth label="Correo electrónico" onChange={handleEmail}/>
         </div>
 
         <div className="signTextField">
           <FormControl sx={{ width: '100%' }} variant="outlined" className="signTextField">
-              <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
-              <OutlinedInput
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Contraseña"
-                error={checkPassword}
-                onChange={handlePassword}
-              />
-              {checkPassword ? <p className='errorAlert'>Debe al menos 8 carácteres</p>: null}
-            </FormControl>
-          </div>
-
-          <Button variant="contained" id="signButton" onClick={generateToken}>Iniciar Sesión</Button>
+            <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
+            <OutlinedInput
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Contraseña"
+              onChange={handlePassword}
+            />
+          </FormControl>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'right', marginTop: 5 }}>
+          <Link href="/recover-password" style={{ textDecoration: 'none' }}>
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </div>
+        <Button variant="contained" id="signButton" onClick={generateToken}>Iniciar Sesión</Button>
       </div>
-      <div>
-          <p>Do you have an account?</p>
+      <div style= {{ display: 'flex', justifyContent: 'center', marginTop: 15, marginBottom: 25 }}>
+          <p>¿No tienes una cuenta?</p>
+          <Link href="/signup" style={{ textDecoration: 'none' }}>Regístrate</Link>
       </div>
     </div>
   </div>
