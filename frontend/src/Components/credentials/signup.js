@@ -117,7 +117,7 @@ const SignUp = () => {
   <div className="signContainer">
     <div className="signBox">
       <Link href="/">
-          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 30 }} alt="Logo" />
       </Link>
       <h1>Regístrate</h1>
       <div className="signFields">
@@ -219,8 +219,9 @@ const SignUp = () => {
           </div>
           <Button variant="contained" id="signButton" onClick={generateToken}>Crear Cuenta</Button>
       </div>
-      <div>
-          <p>Do you have an account?</p>
+      <div style= {{ display: 'flex', justifyContent: 'center', marginTop: 15, marginBottom: 25 }}>
+          <p>¿Ya tienes una cuenta?</p>
+          <Link href="/signin" style={{ textDecoration: 'none' }}>Iniciar sesión</Link>
       </div>
     </div>
   </div>

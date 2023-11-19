@@ -47,7 +47,7 @@ const RecoverPassword = () => {
 
         <Button variant="contained" id="signButton" onClick={changePassword}>Iniciar Sesión</Button>
       </div>
-      <div>
+      <div style= {{ display: 'flex', justifyContent: 'center', marginTop: 15, marginBottom: 25 }}>
         <Link href="/signin">Volver a iniciar sesión</Link>
       </div>
     </div>
