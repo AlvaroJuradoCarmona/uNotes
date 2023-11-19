@@ -44,12 +44,16 @@ export default function Navbar({ user }) {
     <div className="nav">
       <div className="left">
         <Link href="/subject">
-          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0 }} alt="Logo" />
+          <img className='logo' src={Logo} width={120} height={80} style={{ paddingBottom: 3.2, paddingTop: 0, marginRight: 40 }} alt="Logo" />
         </Link>
-        
+        <h3 style={{ marginRight: 40 }}><Link href="/" style={{ textDecoration: 'none', color: 'black' }}>Inicio</Link></h3>
+        <h3 style={{ marginRight: 40 }}><Link href="/ranking" style={{ textDecoration: 'none', color: 'black' }}>Ranking</Link></h3>
+        {user.isAdmin === 1 && 
+          <h3 style={{ marginRight: 40 }}><Link href="/adminpanel" style={{ textDecoration: 'none', color: 'black' }}>Panel Admin</Link></h3>
+        }
       </div>
       <div className="rightNav">
-        <p className='textNav'><strong>{users[0][0].username}</strong></p>
+        <p className='textNav'><Link href="/profile/51" style={{ textDecoration: 'none', color: 'black' }}><strong>{users[0][0].username}</strong></Link></p>
         <Avatar sx={{ bgcolor: red[500], width: 40, height: 40, marginRight: 3 }} aria-label="recipe" src={users[0][0].avatar_url}></Avatar>
         <Link className='buttonSignin' variant="contained" onClick={(signOut)}>Cerrar Sesión</Link>
       </div>
