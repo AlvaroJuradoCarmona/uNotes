@@ -21,7 +21,6 @@ import python from 'react-syntax-highlighter/dist/esm/languages/hljs/python';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import ReportModal from './modals/reportFile'
-import CommentModal from './modals/createComment'
 import Comment from './../comments/comments'
 
 import fileService from './../../services/file.service'
@@ -32,18 +31,22 @@ import './file.css'
 export default function BasicTable({ user }) {
   
   const { id } = useParams();
+  const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState("");
+  const [extension, setExtension] = useState("");
   const [fontSize, setFontSize] = useState(16);
 
   const fetchData = useCallback(async () => {
     try {
       const fileData = await fileService.getFileById(id);
+      setTitle(fileData[0][0].title)
       setUrl(fileData[0][0].url);
       setDescription(fileData[0][0].description);
       const languageData = await categoryService.getLanguageByCategoryId(fileData[0][0].idCategory)
       setLanguage(languageData[0][0].name)
+      setExtension(languageData[0][0].extension)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -69,7 +72,7 @@ export default function BasicTable({ user }) {
     const element = document.createElement('a');
     const file = new Blob([description], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
-    element.download = 'myFile.txt';
+    element.download = `myFile.${extension || 'txt'}`;
     document.body.appendChild(element);
     element.click();
   };
@@ -89,8 +92,10 @@ export default function BasicTable({ user }) {
     <>
       {url ? (
         <>
-          <ReportModal user={user} />
-          <CommentModal user={user} />
+          <div className="fileTitle">
+            <h1>{title}</h1>
+            <ReportModal user={user} />
+          </div>
           <div className='codecontainer'>
             <div className='codeblock'>
               <embed src={url} width="100%" height="800px" />
@@ -102,8 +107,13 @@ export default function BasicTable({ user }) {
         </>
     ) : (
       <>
-        <ReportModal user={user} />
-        <CommentModal user={user} />
+        <div className="fileTitle">
+          <h1>{title}</h1>
+          <ReportModal user={user} />
+        </div>
+        <div className="fileSubTitle">
+          <h5>Lenguaje: {language}</h5>
+        </div>
         <div className='codecontainer'>
           <Code className="codeblock">
             <div className="codeheader">

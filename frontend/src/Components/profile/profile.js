@@ -10,6 +10,9 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Chart from "chart.js/auto"
+import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded';
+import IconButton from '@mui/material/IconButton';
+
 import EditProfile from './modals/editprofile'
 
 import pdfImage from './../../assets/pdf.png';
@@ -21,7 +24,7 @@ import achievementService from './../../services/achievement.service'
 
 import "./profile.css"
 
-export default function Profile() {
+export default function Profile( {user} ) {
    const [userData, setUserData] = useState([]);
    const [files, setFiles] = useState([]);
    const [achievement, setAchievement] = useState([]);
@@ -43,7 +46,7 @@ export default function Profile() {
           console.error('Error fetching data:', error);
         }
     }
-    
+
     useEffect(() => {
     fetchData(id);
     }, [id]);
@@ -65,7 +68,7 @@ export default function Profile() {
 
     const navigate = useNavigate();
 
-    const handleRowClick = (id) => {
+    const handleFile = (id) => {
     navigate(`/file/${id}`);
     };
 
@@ -112,7 +115,8 @@ export default function Profile() {
 
     return (
     <>
-        <EditProfile user={userData}/>
+        {user.idUser === userData.idUser && <EditProfile user={userData} />}
+
         <div className='profileHeader'>
             <div className='profileAvatar'>
                 <Avatar sx={{ bgcolor: red[500], width: 150, height: 150 }} aria-label="recipe" src={userData.avatar_url}></Avatar>
@@ -121,9 +125,9 @@ export default function Profile() {
                 <div className='profileDataContent'>
                     <h1>{userData.username}</h1>
                     <StarIcon />
-                    <p><strong>{userData.experience} EXP</strong></p>
+                    <h3 style={{marginLeft:"5px"}}><strong>{userData.experience} EXP</strong></h3>
                     <EmojiEventsIcon />
-                    <p><strong>{userData.points} PTS</strong></p>
+                    <h3 style={{marginLeft:"5px"}}><strong>{userData.points} PTS</strong></h3>
                 </div>
                 <div>
                     <LinearProgress
@@ -132,10 +136,10 @@ export default function Profile() {
                     color="secondary"
                     value={expInfo.percentage}
                     style={{
-                        height: '20px',
+                        height: '30px',
                     }}
                     />
-                    <p>Nivel {expInfo.level} - {expInfo.percentage} %</p>
+                    <h3 style={{marginTop:"5px"}}>Nivel {expInfo.level} - {expInfo.percentage} %</h3>
                 </div>
             </div>
         </div>
@@ -146,25 +150,27 @@ export default function Profile() {
                     <h2>Últimos subidos</h2>
                     <Button variant="outlined" style={{ color: 'black', borderColor: 'black' }} onClick={() => handleAllFiles(id)}>VER TODOS</Button>
                 </div>
-                <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+                <table style={{ borderCollapse: 'collapse', width: '100%', height: '700px', alignItems: 'center' }}>
                     <tbody>
                         {files.slice(0, 10).map(({ idDocument, title, idCategory }, id) => (
                         <tr
                             key={id}
                             className="ranking-row"
-                            onClick={() => handleRowClick(idDocument)}
                             style={{ lineHeight: '1', borderBottom:"1pt solid black" }}
                         >
-                            <td className='profileFileIcon' style={{ textAlign: 'left', fontSize: 21, marginLeft: 15 }}>
-                                {idCategory >= 6 ? (
-                                    <img src={codeImage} alt="Código" style={{ marginRight: '10px' }} />
-                                ) : (
-                                    <img src={pdfImage} alt="PDF" style={{ marginRight: '10px' }} />
-                                )}
-                                <strong>{title}</strong>
-                                
+                            <td className='profileFileIcon' style={{ textAlign: 'left', fontSize: 21, marginLeft: 15, marginTop: 14 }}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    {idCategory >= 6 ? (
+                                        <img src={codeImage} alt="Código" style={{ marginRight: '10px' }} />
+                                    ) : (
+                                        <img src={pdfImage} alt="PDF" style={{ marginRight: '10px' }} />
+                                    )}
+                                    <p><strong>{title}</strong></p>
+                                </div>
+                                <IconButton style={{ marginRight: 10 }} onClick={() => handleFile(idDocument)}>
+                                    <ArrowCircleUpRoundedIcon />
+                                </IconButton>
                             </td>
-                            
                         </tr>
                         ))}
                     </tbody>

@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useParams } from 'react-router-dom';
+import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 
 import LicenseInfo from './licenseInfo'
 
@@ -98,7 +99,7 @@ export default function BasicModal({ user }) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Upload code</Button>
+      <Button variant="outlined" color='secondary' onClick={handleOpen}><CodeOutlinedIcon />SUBIR CÓDIGO</Button>
       <Modal
         open={open}
         onClose={handleClose}

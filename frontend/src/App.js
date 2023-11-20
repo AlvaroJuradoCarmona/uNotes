@@ -63,7 +63,7 @@ function App() {
                 <Route path="subject/:id" element={<SubjectId user={user} />} />
                 <Route path="file/:id" element={<File user={user} />} />
                 <Route path="achievement/:id" element={<Achievements />} />
-                <Route path="profile/:id" element={<Profile />} />
+                <Route path="profile/:id" element={<Profile user={user} />} />
                 <Route path="ranking" element={<Ranking user={user} />} />
                 <Route path="profile/file/:id" element={<UserFiles user={user} />} />
               </> :null

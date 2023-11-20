@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Pagination from '@mui/material/Pagination';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
 import pdfImage from './../../assets/pdf.png';
 import codeImage from './../../assets/code.png';
@@ -126,7 +127,7 @@ export default function BasicTable({ user }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedFiles.map(({ idDocument, title, created_at, username, avatar_url, idCategory }, id) => (
+              {displayedFiles.map(({ idDocument, title, created_at, username, avatar_url, idCategory, views }, id) => (
                 <TableRow
                   key={id}
                   className="subject-row"
@@ -142,10 +143,12 @@ export default function BasicTable({ user }) {
                   </TableCell>
                   <TableCell sx={{ fontSize:"16px" }}><strong>{title}</strong></TableCell>
                   <TableCell>{created_at}</TableCell>
-                  <TableCell sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right' }}>
+                  <TableCell sx={{ display: 'flex', justifyContent: 'right' }}>
                     <Avatar sx={{ bgcolor: red[500], width: 35, height: 35 }} aria-label="recipe" src={avatar_url}></Avatar>
                   </TableCell>
                   <TableCell>{username}</TableCell>
+                  <TableCell sx={{ display: 'flex', justifyContent: 'right' }}><RemoveRedEyeOutlinedIcon sx={{ width: 25, height: 30 }}/></TableCell>
+                  <TableCell>{views}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
