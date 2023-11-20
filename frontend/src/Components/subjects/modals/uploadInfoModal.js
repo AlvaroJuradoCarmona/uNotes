@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useParams } from 'react-router-dom';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 
 import UploadWidget from './../../files/uploadWidget';
 import LicenseInfo from './licenseInfo'
@@ -103,7 +104,7 @@ export default function BasicModal({ user }) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button variant="outlined" color="secondary" onClick={handleOpen}><FileUploadOutlinedIcon/>Subir apuntes</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -120,7 +121,7 @@ export default function BasicModal({ user }) {
           </div>
 
           <div className="selectorBox">
-            <FormControl fullWidth>
+            <FormControl fullWidth sx={{ marginBottom:2}}>
               <InputLabel id="demo-simple-select-label">Categoría</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -177,7 +178,7 @@ export default function BasicModal({ user }) {
           </div>
           <LicenseInfo />
           
-          <Button variant="contained" id="doneButton" onClick={insertData}>Subir</Button>
+          <Button variant="contained" sx={{ display: "flex", justifyContent: "left"}} onClick={insertData}>Subir</Button>
         </Box>
       </Modal>
     </div>

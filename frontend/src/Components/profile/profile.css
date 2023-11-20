@@ -18,19 +18,15 @@
 .profileDataContent {
     display: flex;
     align-items: center;
+    margin-bottom: -25px;
 }
   
 .profileDataContent h1 {
-    width: 40%;
+    width: 50%;
     text-align: left;
     font-size: 24px;
     margin: 0;
 }
-  
-.profileDataContent p {
-    margin: 4px 5px;
-}
-
 
 .profileDataContent .MuiSvgIcon-root {
     margin-left: 100px;
@@ -67,7 +63,7 @@
 .profileFileIcon {
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: space-between;
 }
 
 .profileGraphAndAchievements {

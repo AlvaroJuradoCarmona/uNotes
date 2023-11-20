@@ -49,7 +49,7 @@ export default function Navbar({ user }) {
         <h3 style={{ marginRight: 40 }}><Link href="/" style={{ textDecoration: 'none', color: 'black' }}>Inicio</Link></h3>
         <h3 style={{ marginRight: 40 }}><Link href="/ranking" style={{ textDecoration: 'none', color: 'black' }}>Ranking</Link></h3>
         {user.isAdmin === 1 && 
-          <h3 style={{ marginRight: 40 }}><Link href="/adminpanel" style={{ textDecoration: 'none', color: 'black' }}>Panel Admin</Link></h3>
+          <h3 style={{ marginRight: 40 }}><Link href="/adminpanel" style={{ textDecoration: 'none', color: 'black' }}>Panel Administrador</Link></h3>
         }
       </div>
       <div className="rightNav">

@@ -33,7 +33,7 @@ export default function BasicModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>¿Necesitas información sobre las licencias?</Button>
+      <Button sx={{ marginBottom:2 }} onClick={handleOpen}>¿Necesitas información sobre las licencias?</Button>
       <Modal
         open={open}
         onClose={handleClose}

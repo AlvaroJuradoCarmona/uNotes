@@ -30,7 +30,7 @@ const getLanguageByCategoryId = async (req,res) => {
     try{
         const connection = await getConnection();
         const {id} = req.params;
-        let query = await connection.query(`SELECT l.name 
+        let query = await connection.query(`SELECT l.name, l.extension 
                                             FROM categories c LEFT JOIN languages l ON c.idLanguage=l.idLanguage 
                                             WHERE c.idCategory = ?;`, id);
         

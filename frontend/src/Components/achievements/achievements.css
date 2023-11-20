@@ -44,10 +44,6 @@
     filter: grayscale(100%);
 }
 
-.achievementCard .MuiCardHeader-title {
-    margin-bottom: 10px; 
-}
-
 hr {
     margin-top: 25px;
     margin-bottom: 40px;

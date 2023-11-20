@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Pagination from '@mui/material/Pagination';
 
+import CommentModal from './modals/createComment'
 import DeleteComment from './modals/deletecomment'
 
 import commentService from './../../services/comment.service';
@@ -42,6 +43,10 @@ export default function RecipeReviewCard({user}) {
 
     return (
         <div>
+            <div style={{ display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
+                <h1>Comentarios</h1>
+                <CommentModal user={user} />
+            </div>
             {displayedComments.map(({ idComment, idUser, username, avatar_url, created_at, description }, index) => (
                 <Card key={index} sx={{ marginBottom: 5 }}>
                     <CardHeader

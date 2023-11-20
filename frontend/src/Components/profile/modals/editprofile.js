@@ -195,7 +195,9 @@ export default function EditProfile({user}) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '8%' }}>
+        <Button variant='outlined' color='secondary' onClick={handleOpen}>Editar perfil</Button>
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
