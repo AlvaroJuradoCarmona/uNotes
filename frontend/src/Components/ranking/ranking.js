@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import podiumImage from './../../assets/podium.png';
 
 import rankingService from "../../services/ranking.service"
 
@@ -38,7 +39,47 @@ export default function BasicTable({ user }) {
   };
 
   return (
-    <>   
+    <>
+      <div className='top3Ranking'>
+        <div className="topUsers">
+          <div className="top-users-container">
+            {usersExp.slice(0, 3).map(({ idUser, username, avatar_url, experience }, id) => (
+              <div key={id} className={`top-user column-${id + 1}`}>
+                <div className="user-info">
+                  <strong>{username}</strong>
+                </div>
+                <Avatar sx={{ bgcolor: red[500], width: 55, height: 55, marginLeft: 1, marginBottom: 1, marginTop: 1 }} aria-label="recipe" src={avatar_url}></Avatar>
+                <div className="user-info">
+                  <strong>{experience}</strong>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="topUsers">
+          <div className="top-users-container">
+            {usersPts.slice(0, 3).map(({ idUser, username, avatar_url, points }, id) => (
+              <div key={id} className={`top-user column-${id + 1}`}>
+                <div className="user-info">
+                  <strong>{username}</strong>
+                </div>
+                <Avatar sx={{ bgcolor: red[500], width: 55, height: 55, marginLeft: 1, marginBottom: 1, marginTop: 1 }} aria-label="recipe" src={avatar_url}></Avatar>
+                <div className="user-info">
+                  <strong>{points}</strong>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className='podiumContainer'>
+        <div className='halfPodium1'>
+          <img className='podiumImage' src={podiumImage} alt="Podium" />
+        </div>
+        <div className='halfPodium2'>
+          <img className='podiumImage' src={podiumImage} alt="Podium" />
+        </div>
+      </div>
       <div className='daysLeft'>
         <AccessAlarmIcon style={{ fontSize: 35, marginRight: 6 }}/>
         <h1>TERMINA EN {daysLeft} DÍAS</h1>
@@ -50,7 +91,7 @@ export default function BasicTable({ user }) {
           </div>
           <table style={{ borderCollapse: 'collapse', width: '100%' }}>
             <tbody>
-              {usersExp.map(({ idUser, username, avatar_url, experience }, id) => (
+              {usersExp.slice(3).map(({ idUser, username, avatar_url, experience }, id) => (
                 <tr
                   key={id}
                   className="ranking-row"
@@ -61,20 +102,19 @@ export default function BasicTable({ user }) {
                     <Avatar sx={{ bgcolor: red[500], width: 45, height: 45 }} aria-label="recipe" src={avatar_url}></Avatar>
                   </td>
                   <td style={{ textAlign: 'left', fontSize: 21 }}><strong>{username}</strong></td>
-                  <td style={{ fontSize: 21, textAlign: 'right' }}><strong>{experience}</strong></td>
+                  <td style={{ fontSize: 21 }}><strong>{experience}</strong></td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
         <div className="halftable">
           <div className='rankingExpTitle'>
               <h2>RANKING PUNTOS</h2>
           </div>
           <table style={{ borderCollapse: 'collapse', width: '100%' }}>
             <tbody>
-              {usersPts.map(({ idUser, username, avatar_url, points }, id) => (
+              {usersPts.slice(3).map(({ idUser, username, avatar_url, points }, id) => (
                 <tr
                   key={id}
                   className="ranking-row"

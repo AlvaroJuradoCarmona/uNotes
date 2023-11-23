@@ -105,7 +105,6 @@ export default function CustomPaginationActionsTable() {
     fetchData();
   }, []);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - files.length) : 0;
 

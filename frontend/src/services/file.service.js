@@ -48,7 +48,7 @@ const getViewsByWeekDay = async () => {
 }
 
 const deleteFile = async (idDocument) => {
-    const request = axios.delete(`${baseUrl}/${idDocument}`)
+    const request = axios.delete(`${baseUrl}/deleteFile/${idDocument}`)
     return request.then(response => response.data)
 }
 
@@ -58,7 +58,7 @@ const addReport = async (fileData) => {
 }
 
 const deleteReport = async (idReport) => {
-    const request = axios.delete(`${baseUrl}/${idReport}`)
+    const request = axios.delete(`${baseUrl}/deleteReport/${idReport}`)
     return request.then(response => response.data)
 }
 

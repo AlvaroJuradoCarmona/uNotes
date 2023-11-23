@@ -200,6 +200,7 @@ const getViewsByWeekDay = async (req,res) => {
 const deleteFile = async (req, res) => {
     try {
         const {idDocument} = req.params
+        console.log(idDocument)
         const connection = await getConnection()
         const query = await connection.query("DELETE FROM documents WHERE idDocument = ?", idDocument)
 

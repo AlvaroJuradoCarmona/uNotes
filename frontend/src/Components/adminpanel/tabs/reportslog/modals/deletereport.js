@@ -51,14 +51,14 @@ export default function DeleteReportModal({idReport}) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            <strong>¿Seguro que quieres eliminar la asignatura?</strong>
+            <strong>¿Seguro que quieres eliminar el reporte?</strong>
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, mb: 4 }}>
-            Esta asignatura se eliminará permanentemente. Esta acción no se puede revertir.
+            Este reporte se eliminará permanentemente. Esta acción no se puede revertir.
           </Typography>
           <div className='adminModalButtons'>
             <Button variant="contained" onClick={handleClose}>Cancelar</Button>
-            <Button variant="contained" onClick={deleteData} sx={{ backgroundColor: red[500] }}>Eliminar</Button>
+            <Button variant="contained" onClick={deleteData} color="error">Eliminar</Button>
           </div>
         </Box>
       </Modal>
