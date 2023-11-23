@@ -220,8 +220,10 @@ const SignUp = () => {
           <Button variant="contained" id="signButton" onClick={generateToken}>Crear Cuenta</Button>
       </div>
       <div style= {{ display: 'flex', justifyContent: 'center', marginTop: 15, marginBottom: 25 }}>
-          <p>¿Ya tienes una cuenta?</p>
-          <Link href="/signin" style={{ textDecoration: 'none' }}>Iniciar sesión</Link>
+          <p>
+            ¿Ya tienes una cuenta?{" "}
+            <Link href="/signin" style={{ textDecoration: 'none' }}>Iniciar sesión</Link>
+          </p>
       </div>
     </div>
   </div>

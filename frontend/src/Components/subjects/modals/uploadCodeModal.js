@@ -108,7 +108,7 @@ export default function BasicModal({ user }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Subir archivos
+            Subir bloque de código
           </Typography>
           <div className="uploadTitle">
             <TextField fullWidth error={checkTitle} label="Titulo" onChange={handleTitle}/>

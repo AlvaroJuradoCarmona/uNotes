@@ -58,7 +58,7 @@ export default function BasicModal({idSubject}) {
           </Typography>
           <div className='adminModalButtons'>
             <Button variant="contained" onClick={handleClose}>Cancelar</Button>
-            <Button variant="contained" onClick={deleteData} sx={{ backgroundColor: red[500] }}>Eliminar</Button>
+            <Button variant="contained" onClick={deleteData} color="error">Eliminar</Button>
           </div>
         </Box>
       </Modal>

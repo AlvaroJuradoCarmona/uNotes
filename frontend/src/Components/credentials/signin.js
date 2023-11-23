@@ -46,7 +46,9 @@ const SignIn = () => {
     }).then(t=>{
       console.log(t)
       setTimeout(() => {
-        tokenService.setToken(t.token)
+        if(t.token){
+          tokenService.setToken(t.token) 
+        }
         window.location.reload(true)
       }, 5000)
     }).catch(e=>{
@@ -104,8 +106,10 @@ const SignIn = () => {
         <Button variant="contained" id="signButton" onClick={generateToken}>Iniciar Sesión</Button>
       </div>
       <div style= {{ display: 'flex', justifyContent: 'center', marginTop: 15, marginBottom: 25 }}>
-          <p>¿No tienes una cuenta?</p>
-          <Link href="/signup" style={{ textDecoration: 'none' }}>Regístrate</Link>
+          <p>
+            ¿No tienes una cuenta?{" "}
+            <Link href="/signup" style={{ textDecoration: 'none' }}>Regístrate</Link>
+          </p>
       </div>
     </div>
   </div>

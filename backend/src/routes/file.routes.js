@@ -17,8 +17,8 @@ router.get('/subject/:idSubject', fileCtrl.getFilesBySubjectId)
 router.get('/profile/:idUser', fileCtrl.getFilesByUserId)
 router.post('/view', fileCtrl.addViewLog)
 router.get('/weekviewsbyuser/:idUser', fileCtrl.getViewsByWeekDayByUser)
-router.delete('/:idReport', fileCtrl.deleteReport)
-router.delete('/:idDocument', fileCtrl.deleteFile)
+router.delete('/deleteFile/:idDocument', fileCtrl.deleteFile)
+router.delete('/deleteReport/:idReport', fileCtrl.deleteReport)
 router.post('/report', fileCtrl.addReport)
 
 export default router;

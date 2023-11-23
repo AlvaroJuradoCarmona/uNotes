@@ -53,7 +53,7 @@ export default function Navbar({ user }) {
         }
       </div>
       <div className="rightNav">
-        <p className='textNav'><Link href="/profile/51" style={{ textDecoration: 'none', color: 'black' }}><strong>{users[0][0].username}</strong></Link></p>
+        <p className='textNav'><Link href={`/profile/${users[0][0].idUser}`} style={{ textDecoration: 'none', color: 'black' }}><strong>{users[0][0].username}</strong></Link></p>
         <Avatar sx={{ bgcolor: red[500], width: 40, height: 40, marginRight: 3 }} aria-label="recipe" src={users[0][0].avatar_url}></Avatar>
         <Link className='buttonSignin' variant="contained" onClick={(signOut)}>Cerrar Sesión</Link>
       </div>
