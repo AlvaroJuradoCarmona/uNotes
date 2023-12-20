@@ -7,7 +7,7 @@ const getCommentById = async (req,res) => {
         const {id} = req.params;
         const query = await connection.query(`SELECT  c.idComment, c.description, DATE_FORMAT(c.created_at, '%d-%m-%Y %H:%i')  AS created_at, u.idUser, u.username, u.avatar_url
                                                 FROM comments c LEFT JOIN users u ON c.idUser=u.idUser 
-                                                WHERE c.idDocument = ?;`, id);
+                                                WHERE c.idDocument = ? ORDER BY created_at DESC;`, id);
         res.json(query);
     }catch(error){
         res.status(500).json({message: "No se ha podido establecer la conexion con la base de datos"});

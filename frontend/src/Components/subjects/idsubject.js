@@ -33,7 +33,7 @@ export default function BasicTable({ user }) {
   const [subjectName, setSubjectName] = useState("")
 
   const [page, setPage] = useState(1);
-  const filesPerPage = 20;
+  const filesPerPage = 10;
 
   const { id } = useParams();
 

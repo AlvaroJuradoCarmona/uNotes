@@ -92,7 +92,7 @@ const getFilesByUserId = async (req,res) => {
         const query = await connection.query(`SELECT idDocument, title, DATE_FORMAT(created_at, '%d-%m-%Y') AS created_at, idCategory, views
                                                 FROM documents
                                                 WHERE idUser = ?
-                                                ORDER BY created_at DESC;`, idUser);
+                                                ORDER BY created_at ASC;`, idUser);
         
         res.json(query);
     }catch(error){
